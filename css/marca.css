@@ -1,0 +1,20 @@
+/* Colores de Mi Legado: crema, café y terracota (similares a su página actual) */
+:root {
+  --papel: #f7f0e6;
+  --superficie: #fffaf3;
+  --tinta: #2b1d14;
+  --suave: #7a6758;
+  --linea: rgba(43, 29, 20, 0.14);
+  --acento: #b4532a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #17110d;
+    --superficie: #211913;
+    --tinta: #f3e9dc;
+    --suave: #b09c8a;
+    --linea: rgba(243, 233, 220, 0.13);
+    --acento: #e07b4c;
+  }
+}

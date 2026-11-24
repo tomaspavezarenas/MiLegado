@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cogotes de Pollo — Mi Legado</title>
+<meta name="description" content="Cogotes de pollo deshidratados a baja temperatura: colágeno natural, calcio, fósforo y 52 % de proteína. Snack natural para perros y gatos.">
+<meta name="theme-color" content="#17110d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Instrument Serif + Inter: las de la tienda. Alfa Slab / Manrope / DM Mono: solo para dibujar la etiqueta de la bolsa -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Alfa+Slab+One&family=Manrope:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: un "estudio" oscuro fijado con scroll donde la bolsa aparece, se abre, salen los cogotes y uno pasa al primer plano con sus componentes; después, páginas kraft con la información y el pedido. */
+:root{
+  --studio:#17110d;      /* fondo del estudio (el café oscuro de la tienda) */
+  --studio2:#2b1d14;
+  --bg:#f7f0e6;          /* papel de la tienda */
+  --orange:#e07b4c;      /* terracota de la tienda */
+  --gold:#ffc46b;        /* brillo */
+  --ink:#2b1d14;         /* tinta de la tienda */
+  --cream:#f3e9dc;
+  --paper:#fffaf3;
+  --line:rgba(43,29,20,.14);
+  --f-display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"DM Mono", ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.55; overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--studio)}
+
+/* nav */
+.nav{position:fixed; z-index:30; left:0; right:0; top:env(safe-area-inset-top,0px); display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding-block:14px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); color:var(--cream); mix-blend-mode:normal}
+.nav.light{color:var(--ink)}
+.logo{font-family:var(--f-display); font-size:22px; color:inherit; text-decoration:none}
+.nav ul{display:flex; gap:26px; list-style:none; margin:0; padding:0}
+.nav ul a{color:inherit; text-decoration:none; font-weight:700; font-size:14px; opacity:.75}
+.nav ul a:hover{opacity:1}
+.btn{appearance:none; border:0; cursor:pointer; font:inherit; font-weight:800; font-size:15px; padding:12px 20px; border-radius:999px;
+  text-decoration:none; display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--bg); transition:transform .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn.orange{background:var(--orange); color:#2a1206}
+.btn.ghost{background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+
+/* ---------- estudio 3D ---------- */
+#show{position:relative; height:720vh; background:var(--studio)}
+.stage{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; color:var(--cream);
+  background:radial-gradient(60% 55% at 50% 48%, var(--studio2) 0%, var(--studio) 70%)}
+.halo{position:absolute; left:50%; top:50%; width:70vmin; height:70vmin; transform:translate(-50%,-50%) scale(var(--hs,1)); border-radius:50%;
+  background:radial-gradient(circle, rgba(242,118,27,.55) 0%, rgba(242,118,27,.12) 45%, transparent 70%); filter:blur(20px); opacity:var(--ho,.8); pointer-events:none}
+.bigword{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding-bottom:4vh; pointer-events:none;
+  font-family:var(--f-display); font-size:clamp(60px,15vw,240px); line-height:1; white-space:nowrap; color:transparent;
+  -webkit-text-stroke:1.5px rgba(255,196,107,.55); opacity:var(--wo,1)}
+#scene{position:absolute; inset:0; width:100%; height:100%; display:block}
+svg.lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+svg.lines path{fill:none; stroke:var(--gold); stroke-width:1.5}
+svg.lines circle.dot{fill:var(--gold)}
+svg.lines circle.ring{fill:none; stroke:var(--gold); stroke-width:1.5}
+svg.lines text{fill:#1a0c04; font:700 12px var(--f-mono); text-anchor:middle; dominant-baseline:central}
+
+.beat{position:absolute; z-index:3; max-width:min(420px, calc(100% - 32px)); transition:none; text-shadow:0 2px 6px rgba(10,4,1,.9), 0 0 28px rgba(10,4,1,.85)}
+.panel{background:rgba(22,10,3,.78); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); padding:14px 18px; border-radius:14px; max-width:320px;
+  box-shadow:inset 0 0 0 1px rgba(255,196,107,.28), 0 12px 32px rgba(0,0,0,.4); text-shadow:none}
+.panel p{opacity:.9; color:#f6e6cf; font-size:14px; line-height:1.45}
+.beat.panel h2{font-size:clamp(20px,1.9vw,26px); margin:0 0 6px}
+.beat.panel h1{font-size:clamp(16px,1.4vw,19px); margin:0 0 4px}
+.beat.panel .eyebrow{font-size:10.5px; margin:0 0 6px}
+.b0.panel{max-width:340px}
+.b0 .btn{font-size:13px; padding:9px 15px}
+.beat .eyebrow{font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin:0 0 10px}
+.beat h1,.beat h2{font-family:var(--f-display); font-weight:400; line-height:1; margin:0 0 12px; text-wrap:balance}
+.beat h1{font-family:var(--f-body); font-weight:800; font-size:clamp(20px,2.1vw,26px); line-height:1.2; letter-spacing:-.02em; max-width:24ch}
+.beat h2{font-size:clamp(30px,3.6vw,52px)}
+.beat p{margin:0; opacity:.85; font-size:17px}
+.b0{left:max(16px, env(safe-area-inset-left,0px)); bottom:36px; left:max(24px,4vw)}
+.b0 .row{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+.b0 .btn{background:var(--orange); color:#2a1206}
+.b0 .btn.ghost{background:transparent; color:var(--cream); box-shadow:inset 0 0 0 1.5px var(--cream)}
+.hint{position:absolute; right:max(24px,4vw); bottom:40px; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold)}
+.hint i{display:inline-block; animation:bob 1.4s ease-in-out infinite; font-style:normal}
+@keyframes bob{50%{transform:translateY(5px)}}
+.b1{left:max(24px,6vw); top:50%; transform:translateY(-50%)}
+.b2{right:max(24px,6vw); top:50%; transform:translateY(-50%); text-align:right}
+.b3{left:50%; top:13%; transform:translateX(-50%); text-align:center}
+.b5{left:50%; bottom:9%; transform:translateX(-50%); text-align:center}
+.comptitle{position:absolute; z-index:3; left:50%; top:calc(64px + env(safe-area-inset-top,0px)); transform:translateX(-50%); text-align:center; white-space:nowrap}
+.comptitle .eyebrow{font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin:0}
+.progress{display:flex; gap:6px; justify-content:center; margin-top:8px}
+.progress span{width:22px; height:3px; border-radius:2px; background:rgba(255,196,107,.25)}
+.progress span.on{background:var(--gold)}
+
+.card{position:absolute; z-index:4; width:min(230px, 30vw); padding:12px 14px; border-radius:12px; color:#f6e6cf;
+  background:rgba(22,10,3,.8); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:inset 0 0 0 1px rgba(255,196,107,.35);
+  transform:translateY(calc((1 - var(--o,0)) * 12px)); opacity:var(--o,0)}
+.card .n{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--gold); color:#1a0c04; font:700 12px var(--f-mono); margin-right:8px; vertical-align:2px}
+.card h3{display:inline; font-size:13px; margin:0; font-weight:700; opacity:.85}
+.card .v{display:block; font-family:var(--f-body); font-weight:800; font-size:17px; letter-spacing:-.01em; color:var(--gold); margin:6px 0 3px; line-height:1.15; font-variant-numeric:tabular-nums}
+.card p{margin:0; font-size:12.5px; line-height:1.45; opacity:.85}
+.card .n{width:18px; height:18px; font-size:10px}
+.c1{left:max(20px,5vw); top:22%}
+.c3{left:max(20px,5vw); top:58%}
+.c2{right:max(20px,5vw); top:22%}
+.c4{right:max(20px,5vw); top:58%}
+
+/* ---------- páginas kraft ---------- */
+.sec{position:relative}
+.inner{width:100%; max-width:1180px; margin:0 auto; padding-block:96px;
+  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; opacity:.72; margin:0 0 14px}
+h2.t{font-family:var(--f-display); font-weight:400; font-size:clamp(36px,4.6vw,62px); line-height:1; margin:0 0 20px; text-wrap:balance}
+.lead{font-size:18px; max-width:52ch; margin:0 0 24px}
+.small{font-size:13px; opacity:.75; max-width:62ch; margin:0}
+.split{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:48px; align-items:start}
+.photo{margin:0; position:sticky; top:90px}
+.photo img{width:100%; max-width:100%; aspect-ratio:1; object-fit:cover; border-radius:22px; display:block; box-shadow:0 24px 60px rgba(59,29,14,.28)}
+.photo figcaption{font-family:var(--f-mono); font-size:11px; opacity:.65; margin-top:8px}
+table{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto; background:var(--paper); border-radius:18px; padding:6px 18px 10px; margin:0 0 14px; box-shadow:inset 0 0 0 1.5px var(--ink)}
+caption{caption-side:top; text-align:left; font-weight:800; padding:12px 0 6px; font-size:15px}
+th,td{padding:9px 0; text-align:left; border-top:1px solid var(--line); font-size:15px}
+td:last-child,th:last-child{text-align:right; font-family:var(--f-mono); font-size:14px}
+thead th{font-family:var(--f-mono); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:.1em; opacity:.7; border-top:0}
+tr.big td{font-weight:800; font-size:17px; border-top:2px solid var(--ink)}
+.cols{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.care{list-style:none; padding:0; margin:0; display:grid; gap:10px}
+.care li{padding-left:26px; position:relative; font-size:15px}
+.care li::before{content:""; position:absolute; left:0; top:.4em; width:13px; height:13px; border-radius:4px; background:var(--orange); box-shadow:inset 0 0 0 1.5px var(--ink)}
+.cta{background:var(--orange); color:#2a1206}
+.cta .inner{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:40px; align-items:center}
+.cta h2.t{font-size:clamp(40px,6vw,84px)}
+.cta .btn{background:#2a1206; color:var(--orange)}
+.cta .btn.ghost{background:transparent; color:#2a1206; box-shadow:inset 0 0 0 1.5px #2a1206}
+.cta .row{display:flex; gap:12px; flex-wrap:wrap}
+.label{width:220px; max-width:100%; border-radius:16px; transform:rotate(4deg); box-shadow:0 20px 40px rgba(42,18,6,.35)}
+.contact{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:18px; font-family:var(--f-mono); font-size:14px}
+.contact code{background:rgba(255,255,255,.35); padding:6px 10px; border-radius:8px; user-select:all; font-family:inherit}
+.copy{appearance:none; border:0; background:transparent; color:inherit; font:inherit; font-size:13px; text-decoration:underline; cursor:pointer}
+footer{text-align:center; font-family:var(--f-mono); font-size:12px; opacity:.65; padding-block:24px 40px;
+  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.toast{position:fixed; z-index:50; left:50%; bottom:calc(24px + env(safe-area-inset-bottom,0px)); transform:translate(-50%,160%);
+  background:var(--ink); color:var(--bg); padding:11px 18px; border-radius:999px; font-weight:700; font-size:14px; transition:transform .35s ease}
+.toast.on{transform:translate(-50%,0)}
+
+/* ---------- compra ---------- */
+.contador{display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; border-radius:999px; background:#2a1206; color:var(--orange); font-size:12px; font-variant-numeric:tabular-nums}
+.compra{display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin:4px 0 20px}
+.opciones{display:flex; gap:8px}
+.opcion{appearance:none; border:0; cursor:pointer; font:600 14px var(--f-body); padding:9px 16px; border-radius:999px; background:transparent; color:#2a1206; box-shadow:inset 0 0 0 1.5px #2a1206}
+.opcion[aria-pressed="true"]{background:#2a1206; color:var(--orange)}
+.opcion.agotada{opacity:.5; text-decoration:line-through}
+.precio{font-family:var(--f-display); font-size:44px; line-height:1; margin:0; font-variant-numeric:tabular-nums}
+.envio{font-size:13px; margin:12px 0 0; opacity:.8}
+.btn:disabled{opacity:.5; cursor:not-allowed; transform:none}
+.cta .contact a{color:inherit; font-weight:700}
+
+/* ---------- página principal ---------- */
+.home-hero{padding-top:70px}
+.home-grid{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr); gap:48px; align-items:center; min-height:min(88vh,760px)}
+.home-title{font-family:var(--f-display); font-weight:400; font-size:clamp(52px,8vw,112px); line-height:.95; color:var(--ink); margin:0 0 22px; text-wrap:balance}
+.home-title br{display:block}
+.home-label{width:100%; max-width:380px; justify-self:center; border-radius:18px; transform:rotate(-3deg); box-shadow:0 30px 60px rgba(59,29,14,.3)}
+.row{display:flex; gap:12px; flex-wrap:wrap}
+.pcard{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:0; background:var(--paper); border-radius:24px; overflow:hidden; box-shadow:inset 0 0 0 1.5px var(--ink), 0 24px 60px rgba(59,29,14,.16)}
+.pimg{position:relative; display:block; min-height:320px}
+.pimg img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease}
+.pimg:hover img{transform:scale(1.04)}
+.badge3d{position:absolute; left:16px; bottom:16px; background:var(--ink); color:var(--bg); font:700 12px var(--f-mono); letter-spacing:.1em; text-transform:uppercase; padding:8px 12px; border-radius:999px}
+.pbody{padding:32px; display:flex; flex-direction:column; justify-content:center; gap:4px}
+.pbody h3{font-family:var(--f-display); font-weight:400; font-size:clamp(26px,2.6vw,36px); line-height:1.05; margin:0 0 10px}
+.pbody p{margin:0 0 14px; max-width:46ch}
+.chips{list-style:none; padding:0; margin:0 0 20px; display:flex; gap:8px; flex-wrap:wrap}
+.chips li{font:500 12px var(--f-mono); padding:6px 10px; border-radius:999px; box-shadow:inset 0 0 0 1.2px var(--ink)}
+.bgrid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; background:var(--line); border-radius:20px; overflow:hidden}
+.bitem{background:var(--paper); padding:24px 22px}
+.bitem b{font:500 12px var(--f-mono); color:var(--orange); letter-spacing:.1em}
+.bitem h3{font-size:18px; margin:10px 0 6px}
+.bitem p{margin:0; font-size:14px; opacity:.8}
+#contacto .inner{grid-template-columns:1fr}
+.back{position:fixed; z-index:31; left:max(16px, env(safe-area-inset-left,0px)); top:calc(64px + env(safe-area-inset-top,0px)); font:600 13px var(--f-body); color:var(--cream); text-decoration:none; opacity:.8; background:rgba(22,10,3,.6); padding:6px 12px; border-radius:999px}
+.back:hover{opacity:1}
+
+@media (max-width:760px){
+  .home-grid,.pcard{grid-template-columns:1fr}
+  .home-label{max-width:240px}
+  .bgrid{grid-template-columns:1fr 1fr}
+  .pimg{min-height:240px}
+  .nav ul{display:none}
+  .hint{display:none}
+  .b1,.b2{left:16px; right:16px; top:auto; bottom:8%; transform:none; text-align:left; max-width:none}
+  .card{width:auto; left:16px!important; right:16px!important; top:auto!important; padding:10px 14px}
+  .card .v{font-size:20px; margin:4px 0 2px}
+  .card p{display:none}
+  .c1{bottom:calc(8px + 3*74px)} .c2{bottom:calc(8px + 2*74px)} .c3{bottom:calc(8px + 74px)} .c4{bottom:8px}
+  .split,.cols,.cta .inner{grid-template-columns:1fr}
+  .photo{position:relative; top:0}
+  .label{display:none}
+}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .hint i{animation:none} .toast{transition:none} }
+</style>
+
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a class="logo" href="./">Mi Legado</a>
+  <ul>
+    <li><a href="./#coleccion">Colección</a></li>
+    <li><a href="#info">Nutrición</a></li>
+    <li><a href="./#preguntas">Ayuda</a></li>
+  </ul>
+  <a class="btn orange" href="./#carrito">Carrito <span class="contador" id="contador">0</span></a>
+</nav>
+
+
+<!-- ================= PRODUCTO EN 3D ================= -->
+<div id="view-producto">
+<a class="back" href="./#coleccion">← Volver a la colección</a>
+<section id="show" aria-label="Presentación 3D del producto">
+  <div class="stage" id="stage">
+    <div class="halo" id="halo"></div>
+    <div class="bigword" id="bigword" aria-hidden="true">MI LEGADO</div>
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <svg class="lines" id="lines" aria-hidden="true"></svg>
+
+    <div class="beat b0 panel" data-a="-1" data-b=".07">
+      <p class="eyebrow">Snack 100 % natural para perros y gatos</p>
+      <h1>Lo natural se hereda. Cogote de pollo deshidratado, crujiente y lleno de fuerza.</h1>
+      <div class="row">
+        <a class="btn" href="#pedir">Pedir una bolsa</a>
+        <a class="btn ghost" href="#info">Ver nutrición</a>
+      </div>
+    </div>
+    <div class="hint beat" data-a="-1" data-b=".05">Desliza y ábrela <i>↓</i></div>
+
+    <div class="beat b1 panel" data-a=".11" data-b=".29">
+      <p class="eyebrow">Ábrela</p>
+      <h2>Huele a premio.</h2>
+      <p>Cogotes enteros, dorados y crujientes. Así de simple, así de rico.</p>
+    </div>
+    <div class="beat b2 panel" data-a=".31" data-b=".43">
+      <p class="eyebrow">Ingrediente único</p>
+      <h2>Cero rellenos. Cero cuentos.</h2>
+      <p>Sin harinas, sin cereales, sin colorantes. Solo cogote de pollo.</p>
+    </div>
+    <div class="beat b3 panel" data-a=".45" data-b=".55">
+      <p class="eyebrow">De cerca</p>
+      <h2>Fuerza natural, mordida a mordida.</h2>
+    </div>
+
+    <div class="comptitle beat panel" style="padding:12px 22px" data-a=".57" data-b=".95">
+      <p class="eyebrow">Lo que hay en cada cogote</p>
+      <div class="progress" id="progress"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="card c1" id="c1"><span class="n">1</span><h3>Cartílago</h3><span class="v">Colágeno natural</span><p>Apoya articulaciones, tendones y ligamentos. Ideal para los que no paran de correr.</p></div>
+    <div class="card c2" id="c2"><span class="n">2</span><h3>Hueso</h3><span class="v">Calcio y fósforo</span><p>Minerales para huesos y dientes firmes. 20 % de cenizas minerales.</p></div>
+    <div class="card c3" id="c3"><span class="n">3</span><h3>Carne</h3><span class="v">52 % proteína</span><p>Proteína de alta calidad, concentrada al quitarle el agua.</p></div>
+    <div class="card c4" id="c4"><span class="n">4</span><h3>Al masticar</h3><span class="v">Dientes limpios, mente tranquila</span><p>Roer arrastra el sarro y los relaja. Solo 15 % de grasa.</p></div>
+
+    <div class="beat b5 panel" data-a=".96" data-b="2">
+      <p class="eyebrow">Bolsa resellable de 100 g</p>
+      <h2>Su premio favorito ya tiene nombre.</h2>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="info">
+  <div class="inner split">
+    <figure class="photo">
+      <img src="img/cogotes/foto.jpg" alt="Cogotes de pollo deshidratados Mi Legado sobre un plato, con las bolsas kraft al fondo" style="aspect-ratio:4/3">
+      <figcaption>Cogote de pollo deshidratado · Mi Legado</figcaption>
+    </figure>
+    <div>
+      <p class="eyebrow">Composición y valor energético</p>
+      <h2 class="t">Más proteína, menos cuento.</h2>
+      <div class="tablewrap">
+        <table>
+          <caption>Por cada 100 g de cogote de pollo deshidratado</caption>
+          <thead><tr><th>Componente</th><th>Valor</th></tr></thead>
+          <tbody>
+            <tr><td>Proteína bruta</td><td>52 %</td></tr>
+            <tr><td>Grasas</td><td>15 %</td></tr>
+            <tr><td>Cenizas (calcio y fósforo del hueso)</td><td>20 %</td></tr>
+            <tr><td>Humedad</td><td>8 %</td></tr>
+            <tr class="big"><td>Valor energético</td><td>343 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cols">
+        <div class="tablewrap">
+          <table>
+            <caption>Ración diaria máxima</caption>
+            <thead><tr><th>Peso del perro</th><th>Máx.</th></tr></thead>
+            <tbody>
+              <tr><td>Hasta 5 kg</td><td>10 g</td></tr>
+              <tr><td>5 a 10 kg</td><td>20 g</td></tr>
+              <tr><td>10 a 20 kg</td><td>20–40 g</td></tr>
+              <tr><td>20 a 40 kg</td><td>40–80 g</td></tr>
+              <tr><td>Más de 40 kg</td><td>80–100 g</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tablewrap" style="padding-block:14px">
+          <p style="font-weight:800; margin:0 0 10px">Cuidados</p>
+          <ul class="care">
+            <li>Dáselo siempre supervisado, sobre todo con varios perros juntos.</li>
+            <li>Para gatos y perros chicos, en trozos.</li>
+            <li>Deja agua fresca a mano.</li>
+            <li>Guarda la bolsa cerrada, en lugar fresco y seco.</li>
+            <li>No recomendado con alergia al pollo, enfermedad renal avanzada o problemas dentales graves.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small">Composición referencial de cogote de pollo deshidratado, según valores declarados por productos equivalentes del mercado. Los beneficios articulares y dentales son de apoyo y no reemplazan las indicaciones de tu veterinario.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec cta" id="pedir">
+  <div class="inner">
+    <div>
+      <p class="eyebrow" id="compra-eyebrow">Masticables naturales</p>
+      <h2 class="t">Dale lo que se merece.</h2>
+      <p class="lead" id="compra-desc">Cogotes de pollo 100 % naturales, deshidratados a baja temperatura para conservar sus propiedades.</p>
+      <div class="compra">
+        <div class="opciones" id="opciones" role="group" aria-label="Elige el tamaño"></div>
+        <p class="precio" id="precio"></p>
+      </div>
+      <div class="row">
+        <button class="btn" id="agregar" type="button">Agregar al carrito</button>
+        <a class="btn ghost" href="./#carrito">Ver carrito</a>
+      </div>
+      <p class="envio" id="envio"></p>
+      <div class="contact"><span>¿Dudas? Escríbenos por WhatsApp o en Instagram</span> <a href="https://www.instagram.com/mi.legado.snack/" target="_blank" rel="noopener">@mi.legado.snack</a></div>
+    </div>
+    <img class="label" id="ctaLabel" src="img/cogotes/label.jpg" alt="Etiqueta Mi Legado: snack para perros y gatos, cogote de pollo deshidratado 100 g">
+  </div>
+</section>
+</div>
+<footer>Mi Legado · Snack para perros y gatos · @mi.legado.snack</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/fichas.js"></script>
+<script>
+/* ---------- contenido del producto (ficha.html?p=ID, textos en js/fichas.js) ---------- */
+window.FICHA_ID = (new URLSearchParams(location.search).get('p') || decodeURIComponent(location.hash.slice(1)) || 'cogotes-de-pollo');
+if (!FICHAS[window.FICHA_ID]) { location.replace('./#coleccion'); }
+const F = FICHAS[window.FICHA_ID] || FICHAS['cogotes-de-pollo'];
+(function(){
+  const q=s=>document.querySelector(s);
+  const txt=(s,v)=>{ const n=q(s); if(n && v!=null) n.textContent=v; };
+  const filas=(tbody,rows)=>{ tbody.replaceChildren(...rows.map(([a,b])=>{ const tr=document.createElement('tr'); const t1=document.createElement('td'), t2=document.createElement('td'); t1.textContent=a; t2.textContent=b; tr.append(t1,t2); return tr; })); };
+  document.title=`${F.titulo} — Mi Legado`;
+  q('meta[name="description"]').setAttribute('content',F.descripcion);
+  txt('.b0 .eyebrow',F.portada.eyebrow); txt('.b0 h1',F.portada.titulo);
+  txt('.b1 .eyebrow',F.abre.eyebrow); txt('.b1 h2',F.abre.titulo); txt('.b1 p:not(.eyebrow)',F.abre.texto);
+  txt('.b2 .eyebrow',F.unico.eyebrow); txt('.b2 h2',F.unico.titulo); txt('.b2 p:not(.eyebrow)',F.unico.texto);
+  txt('.b3 .eyebrow',F.foco.eyebrow); txt('.b3 h2',F.foco.titulo);
+  txt('.comptitle .eyebrow',F.componentesTitulo);
+  F.componentes.forEach((c,i)=>{ txt(`#c${i+1} h3`,c.parte); txt(`#c${i+1} .v`,c.valor); txt(`#c${i+1} p`,c.texto); });
+  txt('.b5 .eyebrow',F.cierre.eyebrow); txt('.b5 h2',F.cierre.titulo);
+  // nutrición
+  txt('#info h2.t',F.nutricion.titulo);
+  const tablas=document.querySelectorAll('#info table');
+  tablas[0].querySelector('caption').textContent=F.nutricion.tabla;
+  filas(tablas[0].querySelector('tbody'),[...F.nutricion.filas,F.nutricion.energia]);
+  tablas[0].querySelector('tbody tr:last-child').className='big';
+  tablas[1].querySelector('caption').textContent=F.porciones.titulo;
+  const th=tablas[1].querySelectorAll('thead th'); th[0].textContent=F.porciones.columnas[0]; th[1].textContent=F.porciones.columnas[1];
+  filas(tablas[1].querySelector('tbody'),F.porciones.filas);
+  q('.care').replaceChildren(...F.cuidados.map(t=>{ const li=document.createElement('li'); li.textContent=t; return li; }));
+  txt('#info .small',F.nota);
+  const foto=q('#info .photo img'); if(F.foto){ foto.src=F.foto; } else { foto.src=F.imagen.src; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; }
+  foto.alt=F.titulo; txt('#info figcaption',`${F.titulo} · Mi Legado`);
+  txt('#ctaTitle',null);
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const INK='#3b1d0e', KRAFT='#cfa676';
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const sstep=(a,b,t)=>{t=clamp((t-a)/(b-a));return t*t*(3-2*t)};
+const lerp=(a,b,t)=>a+(b-a)*t;
+const easeOut=t=>1-Math.pow(1-t,3);
+function rng(seed){let s=seed%233280;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+
+/* ---------- renderer y luces ---------- */
+const stage=document.getElementById('stage'), canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.15;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(30,1,.1,100); camera.position.set(0,0,8.4);
+
+(function env(){
+  const c=document.createElement('canvas'); c.width=1024; c.height=512; const g=c.getContext('2d');
+  const gr=g.createLinearGradient(0,0,0,512); gr.addColorStop(0,'#6b4a33'); gr.addColorStop(.5,'#2a170c'); gr.addColorStop(1,'#0d0603');
+  g.fillStyle=gr; g.fillRect(0,0,1024,512);
+  g.fillStyle='#fff4e0'; g.fillRect(140,110,110,240); g.fillRect(560,80,200,280);
+  g.fillStyle='#ffb35c'; g.fillRect(860,150,80,220); g.fillRect(380,180,40,160);
+  const t=new THREE.CanvasTexture(c); t.mapping=THREE.EquirectangularReflectionMapping; t.encoding=THREE.sRGBEncoding;
+  const pm=new THREE.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(t).texture; t.dispose(); pm.dispose();
+})();
+scene.add(new THREE.HemisphereLight(0xffe7c7,0x2a1408,.35));
+const key=new THREE.DirectionalLight(0xfff1dc,1.05); key.position.set(2.5,3.5,5); scene.add(key);
+const rimA=new THREE.DirectionalLight(0xff8a2a,1.6); rimA.position.set(-5,2,-3); scene.add(rimA);
+const rimB=new THREE.DirectionalLight(0xffc46b,1.1); rimB.position.set(5,-1,-4); scene.add(rimB);
+const spot=new THREE.PointLight(0xffd59a,.6,12); spot.position.set(0,1.5,4); scene.add(spot);
+
+/* ---------- texturas de la bolsa ---------- */
+const winImg=new Image(), labelImg=new Image(), prodImg=new Image();
+function kraft(g,W,H,seed){
+  g.fillStyle=KRAFT; g.fillRect(0,0,W,H);
+  const r=rng(seed);
+  for(let i=0;i<5000;i++){ g.fillStyle=r()<.5?'rgba(90,55,25,.10)':'rgba(255,240,210,.12)'; g.fillRect(r()*W,r()*H,1+r()*3,1+r()*2); }
+  g.strokeStyle='rgba(110,70,35,.10)'; g.lineWidth=1.2;
+  for(let i=0;i<260;i++){ const x=r()*W,y=r()*H; g.beginPath(); g.moveTo(x,y); g.lineTo(x+(r()-.5)*40,y+(r()-.5)*14); g.stroke(); }
+  g.fillStyle='rgba(90,55,25,.12)'; g.fillRect(0,0,W,130);
+  g.strokeStyle='rgba(80,45,20,.25)'; g.lineWidth=2;
+  for(let x=0;x<W;x+=8){ g.beginPath(); g.moveTo(x,14); g.lineTo(x,70); g.stroke(); }
+  g.setLineDash([14,10]); g.strokeStyle='rgba(80,45,20,.45)'; g.beginPath(); g.moveTo(0,150); g.lineTo(W,150); g.stroke(); g.setLineDash([]);
+}
+function windowBand(g,W,y0,h,seed){
+  const g0=g.createLinearGradient(0,y0,0,y0+h); g0.addColorStop(0,'#241106'); g0.addColorStop(1,'#3d1f0c');
+  g.fillStyle=g0; g.fillRect(0,y0,W,h);
+  const r=rng(seed||5);
+  g.save(); g.beginPath(); g.rect(0,y0,W,h); g.clip();
+  if(F.ventana && winImg.complete && winImg.naturalWidth){
+    const s=Math.max(W/winImg.naturalWidth, h/winImg.naturalHeight), iw=winImg.naturalWidth*s, ih=winImg.naturalHeight*s;
+    g.drawImage(winImg,(W-iw)/2,y0+(h-ih)/2,iw,ih);
+    g.fillStyle='rgba(40,18,4,.18)'; g.fillRect(0,y0,W,h);
+  } else if(prodImg.complete && prodImg.naturalWidth){
+    // sin foto de ventana: varias piezas del producto amontonadas
+    const ph=h*1.25, pw=ph*prodImg.naturalWidth/prodImg.naturalHeight;
+    for(let i=0;i<9;i++){ g.save(); g.translate((i+.5)*W/8+(r()-.5)*40, y0+h*(.35+r()*.5)); g.rotate((r()-.5)*1.4); if(i%2) g.scale(-1,1);
+      g.drawImage(prodImg,-pw/2,-ph/2,pw,ph); g.restore(); }
+    g.fillStyle='rgba(40,18,4,.15)'; g.fillRect(0,y0,W,h);
+  } else for(let i=0;i<30;i++){
+    const cx=r()*W, cy=y0+r()*h, len=120+r()*130, wid=30+r()*24, ang=(r()-.5)*1.6;
+    g.save(); g.translate(cx,cy); g.rotate(ang);
+    const b=g.createLinearGradient(0,-wid,0,wid); b.addColorStop(0,'#e0a44e'); b.addColorStop(.45,'#a3561a'); b.addColorStop(1,'#4e2309');
+    g.fillStyle=b; g.beginPath(); g.ellipse(0,0,len/2,wid,0,0,Math.PI*2); g.fill();
+    g.strokeStyle='rgba(45,18,4,.55)'; g.lineWidth=3;
+    for(let k=-3;k<=3;k++){ g.beginPath(); g.moveTo(k*len/8,-wid*.9); g.quadraticCurveTo(k*len/8+7,0,k*len/8,wid*.9); g.stroke(); }
+    g.fillStyle='rgba(245,200,120,.35)'; g.beginPath(); g.ellipse(-len*.1,-wid*.45,len*.35,wid*.16,0,0,Math.PI*2); g.fill();
+    g.restore();
+  }
+  g.restore();
+  const gr=g.createLinearGradient(0,y0,0,y0+h); gr.addColorStop(0,'rgba(255,255,255,.4)'); gr.addColorStop(.2,'rgba(255,255,255,.06)'); gr.addColorStop(.85,'rgba(255,255,255,0)'); gr.addColorStop(1,'rgba(255,255,255,.2)');
+  g.fillStyle=gr; g.fillRect(0,y0,W,h);
+  g.fillStyle='rgba(255,255,255,.3)'; g.fillRect(0,y0+h*.2,W,5);
+}
+function roundRect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+const FW=1024, FH=1536;
+const fc=document.createElement('canvas'); fc.width=FW; fc.height=FH; const fg=fc.getContext('2d');
+const bc=document.createElement('canvas'); bc.width=FW; bc.height=FH; const bg2=bc.getContext('2d');
+const frontTex=new THREE.CanvasTexture(fc), backTex=new THREE.CanvasTexture(bc);
+[frontTex,backTex].forEach(t=>{t.encoding=THREE.sRGBEncoding; t.anisotropy=renderer.capabilities.getMaxAnisotropy()});
+/* etiqueta redibujada: emblema sacado de la impresión + textos nítidos */
+const LW=760, LH=1060, lab=document.createElement('canvas'); lab.width=LW; lab.height=LH;
+let emblem=null;
+function extractEmblem(){
+  try{
+    const iw=labelImg.naturalWidth, ih=labelImg.naturalHeight;
+    const sx=Math.round(iw*.06), sy=Math.round(ih*.105), sw=Math.round(iw*.88), sh=Math.round(ih*.455);
+    const c=document.createElement('canvas'); c.width=sw; c.height=sh; const g=c.getContext('2d');
+    g.drawImage(labelImg,sx,sy,sw,sh,0,0,sw,sh);
+    const d=g.getImageData(0,0,sw,sh), a=d.data;
+    for(let i=0;i<a.length;i+=4){
+      const lum=(.299*a[i]+.587*a[i+1]+.114*a[i+2])/255;
+      const orange=a[i]-a[i+2];                       // descarta papel kraft claro
+      const al=clamp((.47-lum)/.17)*(orange>40||lum<.3?1:0);
+      a[i]=59; a[i+1]=29; a[i+2]=14; a[i+3]=al*255;
+    }
+    g.putImageData(d,0,0); emblem=c;
+  }catch(e){ emblem=null; }
+}
+function spaced(g,text,x,y,sp){ // texto con tracking, centrado
+  const chars=[...text]; const w=chars.reduce((s,ch)=>s+g.measureText(ch).width+sp,0)-sp; let cx=x-w/2;
+  const al=g.textAlign; g.textAlign='left'; chars.forEach(ch=>{g.fillText(ch,cx,y); cx+=g.measureText(ch).width+sp}); g.textAlign=al;
+}
+function buildLabel(){
+  const g=lab.getContext('2d'); g.clearRect(0,0,LW,LH);
+  roundRect(g,0,0,LW,LH,30); g.fillStyle='#f2761b'; g.fill();
+  const sh=g.createLinearGradient(0,0,LW,LH); sh.addColorStop(0,'rgba(255,240,200,.16)'); sh.addColorStop(.55,'rgba(255,255,255,0)'); sh.addColorStop(1,'rgba(80,20,0,.12)');
+  g.fillStyle=sh; g.fill();
+  g.strokeStyle='rgba(59,29,14,.6)'; g.lineWidth=3; roundRect(g,20,20,LW-40,LH-40,20); g.stroke();
+  g.lineWidth=1.2; roundRect(g,30,30,LW-60,LH-60,14); g.stroke();
+  if(emblem){ const ew=560, eh=ew*emblem.height/emblem.width; g.drawImage(emblem,(LW-ew)/2,54,ew,eh); }
+  g.fillStyle=INK; g.textAlign='center';
+  g.font='112px "Alfa Slab One", Georgia, serif'; spaced(g,'MI LEGADO',LW/2,600,4);
+  g.font='800 27px "Manrope", sans-serif'; spaced(g,'◆  SNACK PARA PERROS Y GATOS  ◆',LW/2,652,3);
+  g.font='600 22px "Manrope", sans-serif'; spaced(g,'COLÁGENO & PROTEÍNA · FUERZA NATURAL',LW/2,692,2.5);
+  g.strokeStyle=INK; g.lineWidth=2.5; g.beginPath(); g.moveTo(170,728); g.lineTo(350,728); g.moveTo(410,728); g.lineTo(590,728); g.stroke();
+  g.beginPath(); g.moveTo(380,716); g.lineTo(392,728); g.lineTo(380,740); g.lineTo(368,728); g.closePath(); g.fill();
+  g.font='700 44px "Manrope", sans-serif'; g.fillText(F.etiqueta.lineas[0],LW/2,800);
+  g.fillText(F.etiqueta.lineas[1]||'',LW/2,850);
+  roundRect(g,LW/2-110,880,220,64,32); g.fill();
+  g.fillStyle='#f2761b'; g.font='800 30px "Manrope", sans-serif'; g.fillText(F.etiqueta.sello||'PESO NETO 100 g',LW/2,923);
+  g.fillStyle=INK; g.font='500 22px "DM Mono", monospace';
+  g.fillText('+569 6167 4210  ·  @mi.legado.snack',LW/2,1000);
+  try{ const url=lab.toDataURL('image/png'); ['homeLabel','ctaLabel'].forEach(id=>{const el=document.getElementById(id); if(el) el.src=url;}); }catch(e){}
+}
+function drawFront(){
+  kraft(fg,FW,FH,11); windowBand(fg,FW,1290,190,5);
+  buildLabel();
+  fg.save(); fg.shadowColor='rgba(40,18,4,.25)'; fg.shadowBlur=8; fg.shadowOffsetY=3; fg.drawImage(lab,(FW-LW)/2,190); fg.restore();
+  frontTex.needsUpdate=true;
+}
+function drawBack(){
+  const g=bg2; kraft(g,FW,FH,23); windowBand(g,FW,1290,190,9);
+  g.fillStyle=INK; g.textAlign='center';
+  g.font='92px "Alfa Slab One", Georgia, serif'; g.fillText('MI LEGADO',512,300);
+  g.font='600 32px "Manrope", sans-serif'; g.fillText('Snack natural para perros y gatos',512,356);
+  g.font='500 26px "DM Mono", monospace'; g.fillText(F.etiqueta.ingrediente,512,410);
+  g.textAlign='left'; g.strokeStyle=INK; g.lineWidth=4; g.strokeRect(150,470,724,400);
+  g.font='800 32px "Manrope", sans-serif'; g.fillText('Composición por 100 g',180,522);
+  g.lineWidth=2; g.beginPath(); g.moveTo(150,544); g.lineTo(874,544); g.stroke();
+  g.font='500 30px "DM Mono", monospace';
+  [...F.nutricion.filas.map(f=>[f[0].replace(/\s*\(.*\)/,''),f[1]]), [F.nutricion.energia[0].replace(/ metabolizable| estimada/,''),F.nutricion.energia[1]]].slice(0,5).forEach((r,i)=>{const y=596+i*56; g.textAlign='left'; g.fillText(r[0],180,y); g.textAlign='right'; g.fillText(r[1],844,y);});
+  g.textAlign='center'; g.font='600 26px "Manrope", sans-serif';
+  g.fillText('Sin harinas · Sin cereales · Sin colorantes',512,950);
+  g.font='500 22px "DM Mono", monospace';
+  g.fillText('Dar siempre bajo supervisión · Mantener en lugar fresco y seco',512,1010);
+  g.fillText('+569 6167 4210  ·  @mi.legado.snack',512,1240);
+  backTex.needsUpdate=true;
+}
+function redraw(){drawFront(); drawBack()}
+labelImg.onload=()=>{extractEmblem(); redraw()}; labelImg.src='img/cogotes/label.jpg';
+winImg.onload=redraw; if(F.ventana) winImg.src=F.ventana;
+prodImg.onload=redraw; prodImg.src=F.imagen.src;
+redraw();
+if(document.fonts){ Promise.all(['400 90px "Alfa Slab One"','800 30px Manrope','500 30px "DM Mono"'].map(f=>document.fonts.load(f))).then(redraw).catch(()=>{}); }
+
+/* ---------- bolsa: cuerpo abierto arriba + tira que se arranca ---------- */
+const W=1.7, H=2.55, D=.3, CUT=.9;
+function bulge(x,y,open){
+  const s=(y+H/2)/H;
+  const across=Math.pow(Math.max(0,1-Math.pow(2*x/W,2)),.55);
+  const top=open ? 1-.6*sstep(.78,CUT,s) : 1-sstep(.80,.95,s);
+  const bottom=.35+.65*sstep(0,.12,s);
+  const crinkle=.012*Math.sin(x*9+y*3)*Math.sin(y*7);
+  return D*across*top*bottom + crinkle*across + .004;
+}
+function face(tex,sign,v0,v1,open){
+  const h=H*(v1-v0), geo=new THREE.PlaneGeometry(W,h,48,Math.max(4,Math.round(72*(v1-v0))));
+  geo.translate(0,-H/2+H*(v0+v1)/2,0);
+  const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setY(i, v0+uv.getY(i)*(v1-v0));
+  if(sign<0) geo.rotateY(Math.PI);
+  const p=geo.attributes.position;
+  for(let i=0;i<p.count;i++){ p.setZ(i, sign*bulge(p.getX(i),p.getY(i),open)); }
+  geo.computeVertexNormals();
+  return new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex, roughness:.62, clearcoat:.35, clearcoatRoughness:.5, side:THREE.DoubleSide}));
+}
+const bag=new THREE.Group();
+bag.add(face(frontTex,1,0,CUT,true), face(backTex,-1,0,CUT,true));
+const seamMat=new THREE.MeshStandardMaterial({color:0xb88d5d, roughness:.9});
+[-1,1].forEach(sx=>{const m=new THREE.Mesh(new THREE.BoxGeometry(.035,H*CUT,.02),seamMat); m.position.set(sx*W/2,-H/2+H*CUT/2,0); bag.add(m)});
+// interior oscuro de la boca
+const mouth=new THREE.Mesh(new THREE.CircleGeometry(1,40), new THREE.MeshBasicMaterial({color:0x120804}));
+mouth.scale.set(W*.47,.11,1); mouth.rotation.x=-Math.PI/2; mouth.position.y=-H/2+H*CUT-.06; bag.add(mouth);
+const strip=new THREE.Group();
+strip.add(face(frontTex,1,CUT,1,false), face(backTex,-1,CUT,1,false));
+bag.add(strip);
+scene.add(bag);
+
+/* ---------- cogotes de pollo procedurales ---------- */
+const fiberTex=(()=>{const c=document.createElement('canvas'); c.width=512; c.height=256; const g=c.getContext('2d'); g.fillStyle='#808080'; g.fillRect(0,0,512,256);
+  const r=rng(77); for(let i=0;i<420;i++){ const y=r()*256; g.strokeStyle=r()<.5?'rgba(0,0,0,.35)':'rgba(255,255,255,.35)'; g.lineWidth=.6+r()*1.6; g.beginPath(); g.moveTo(0,y);
+    for(let x=0;x<=512;x+=32) g.lineTo(x, y+Math.sin(x*.03+i)*3); g.stroke(); }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t})();
+const neckMat=new THREE.MeshPhysicalMaterial({vertexColors:true, roughness:.36, metalness:0, clearcoat:1, clearcoatRoughness:.18, bumpMap:fiberTex, bumpScale:.022, emissive:0x2a0f02, side:THREE.DoubleSide});
+const skinMat=new THREE.MeshPhysicalMaterial({color:0xd99a45, emissive:0x5a2806, roughness:.25, clearcoat:1, clearcoatRoughness:.12, transparent:true, opacity:.74, side:THREE.DoubleSide, depthWrite:false});
+const C_DARK=new THREE.Color('#2a1004').convertSRGBToLinear(), C_AMBER=new THREE.Color('#8f4512').convertSRGBToLinear(), C_GOLD=new THREE.Color('#c98a35').convertSRGBToLinear();
+skinMat.color.set('#c07a2c').convertSRGBToLinear();
+
+function makeNeck(seed){
+  const r=rng(seed*131+17);
+  // cogote deshidratado: aplanado, con anillos de vértebras marcados, torcido y con pellejo translúcido en los bordes
+  const L=1.6+r()*.5, bend=(r()-.5)*.9;
+  const pts=[]; for(let i=0;i<6;i++){const t=i/5; pts.push(new THREE.Vector3((t-.5)*L, Math.sin(t*Math.PI)*bend+(r()-.5)*.1, Math.sin(t*Math.PI*2)*.12*(r()-.5)));}
+  const curve=new THREE.CatmullRomCurve3(pts);
+  const TS=170, RS=40, R=.2+r()*.04;
+  const geo=new THREE.TubeGeometry(curve,TS,R,RS,false);
+  const pos=geo.attributes.position, col=new Float32Array(pos.count*3);
+  const rings=10+Math.floor(r()*4), ph=r()*6, f1=4+r()*8, twist=(r()-.5)*1.4, flat=.34+r()*.08, wide=1.1+r()*.2, wv=r()*6;
+  const c=new THREE.Vector3(), T=new THREE.Vector3(), Wd=new THREE.Vector3(), Z=new THREE.Vector3(0,0,1), cl=new THREE.Color();
+  const sideAt=u=>{ curve.getTangentAt(u,T); return Wd.crossVectors(T,Z).normalize(); };
+  for(let i=0;i<=TS;i++){
+    const u=i/TS; curve.getPointAt(u,c); sideAt(u);
+    const endT=(i===0||i===TS)?0:.28+.72*Math.sqrt(clamp(Math.min(u,1-u)/.06));
+    const ring=Math.pow(Math.abs(Math.sin(u*Math.PI*rings+ph)),.35);
+    const tw=twist*(u-.5)+Math.sin(u*5+seed)*.22, ct=Math.cos(tw), st=Math.sin(tw);
+    for(let j=0;j<=RS;j++){
+      const k=i*(RS+1)+j, a=j/RS*Math.PI*2, ca=Math.cos(a), sa=Math.sin(a);
+      const n=.06*Math.sin(a*7+u*f1)+.04*Math.sin(u*64+a*3)+.03*Math.sin(a*13+u*22);
+      const s=(.84+.16*ring+n)*endT*R*(1+.18*Math.sin(u*4.5+wv)-.1*u);
+      const edge=Math.pow(Math.abs(ca),6);
+      const lx=ca*wide*(1+.3*edge)*s, ly=sa*flat*(1-.55*edge)*s;
+      const px=lx*ct-ly*st, py=lx*st+ly*ct;              // px: ancho (en el plano), py: grosor (hacia cámara)
+      pos.setXYZ(k, c.x+Wd.x*px, c.y+Wd.y*px, c.z+py);
+      cl.copy(C_DARK).lerp(C_AMBER, clamp(ring*.9+n*2+.05));
+      cl.lerp(C_GOLD, edge*.55 + (sa>0?.08:0));
+      col[k*3]=cl.r; col[k*3+1]=cl.g; col[k*3+2]=cl.b;
+    }
+  }
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3)); geo.computeVertexNormals();
+  const g=new THREE.Group(); const body=new THREE.Mesh(geo,neckMat); g.add(body);
+  // pellejos de piel translúcida en los costados
+  const flaps=2+Math.floor(r()*2);
+  for(let f=0;f<flaps;f++){
+    const side=f%2?1:-1, u0=.15+r()*.6, len=.25+r()*.3;
+    const fgeo=new THREE.PlaneGeometry(1,1,28,8), fp=fgeo.attributes.position;
+    for(let i=0;i<fp.count;i++){
+      const px=fp.getX(i)+.5, py=fp.getY(i)+.5;
+      const u=clamp(u0+(px-.5)*len,.02,.98); curve.getPointAt(u,c); sideAt(u);
+      const base=R*wide*.85;
+      const out=base+py*(.1+.12*Math.sin(px*Math.PI))*(1+.35*Math.sin(px*19+f*3))*Math.sin(px*Math.PI);
+      const z=.035*Math.sin(px*15+py*6+f)+py*py*.07*side;
+      fp.setXYZ(i, c.x+Wd.x*out*side, c.y+Wd.y*out*side, c.z+z);
+    }
+    fgeo.computeVertexNormals(); g.add(new THREE.Mesh(fgeo,skinMat));
+  }
+  // anclas para las fichas (punto más al frente en cada u)
+  g.userData.anchor=u=>{ const i=Math.round(u*TS); let best=null, bz=-1e9; for(let j=0;j<=RS;j++){ const k=i*(RS+1)+j; const z=pos.getZ(k); if(z>bz){bz=z; best=new THREE.Vector3(pos.getX(k),pos.getY(k),z);} } return best; };
+  return g;
+}
+
+const COUNT=9, snacks=[];
+const cloud=[[.95,.55,.6],[-2.3,1.1,-.6],[2.4,1.2,-1],[-1.4,-1.1,.3],[2.0,-1.2,-.2],[-2.9,-.2,-1.4],[3.1,.1,-1.6],[-.6,1.6,-1.2],[.4,-1.6,-.8]];
+/* cogote real: recorte de la foto del producto, con leve volumen y halo de brillo */
+const cutTex=new THREE.TextureLoader().load(F.imagen.src); cutTex.encoding=THREE.sRGBEncoding; cutTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+const CW=1.9, CH=1.9*F.imagen.alto/F.imagen.ancho;
+const snackGeo=(()=>{ const geo=new THREE.PlaneGeometry(CW,CH,24,24), p=geo.attributes.position;
+  for(let k=0;k<p.count;k++){ const x=p.getX(k)/(CW/2), y=p.getY(k)/(CH/2); p.setZ(k,.16*(1-x*x)*(1-.5*y*y)); }
+  geo.computeVertexNormals(); return geo; })();
+function makeSnack(i){
+  const r=rng(i*97+5);
+  const inner=new THREE.Group();
+  const glow=new THREE.Mesh(snackGeo,new THREE.MeshBasicMaterial({map:cutTex, color:0xff8a2a, transparent:true, opacity:.32, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.DoubleSide}));
+  glow.scale.setScalar(1.08); glow.position.z=-.04;
+  const mat=new THREE.MeshBasicMaterial({map:cutTex, transparent:true, depthWrite:false, side:THREE.DoubleSide});
+  mat.color.setScalar(.86+.14*r());
+  inner.add(glow,new THREE.Mesh(snackGeo,mat));
+  if(i%2===1) inner.scale.x=-1;
+  const g=new THREE.Group(); g.add(inner); return g;
+}
+for(let i=0;i<COUNT;i++){
+  const m=makeSnack(i); m.visible=false;
+  m.userData.cloud=new THREE.Vector3(...cloud[i]);
+  m.userData.spin=new THREE.Vector3((Math.random()-.5)*2,(Math.random()-.5)*2,(Math.random()-.5)*2);
+  m.userData.rot0=new THREE.Euler(Math.random()*6,Math.random()*6,Math.random()*6);
+  m.userData.start=new THREE.Vector3((i%3-1)*.35,-H/2+H*CUT-.5,0);
+  m.userData.delay=i*.012;
+  snacks.push(m); scene.add(m);
+}
+const hero=snacks[0];
+// puntos sobre la foto del cogote (u,v): punta de cartílago, lomo con vértebras, carne, borde de piel
+const ANCH=F.imagen.anclas.map(([u,v])=>new THREE.Vector3((u-.5)*CW,(.5-v)*CH,.1));
+
+// destellos dorados
+const N=220, sp=new Float32Array(N*3), sv=new Float32Array(N);
+for(let i=0;i<N;i++){sp[i*3]=(Math.random()-.5)*12; sp[i*3+1]=(Math.random()-.5)*8; sp[i*3+2]=-4+Math.random()*5; sv[i]=.05+Math.random()*.2}
+const sg=new THREE.BufferGeometry(); sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
+const dc=document.createElement('canvas'); dc.width=dc.height=64; {const d=dc.getContext('2d'); const r=d.createRadialGradient(32,32,0,32,32,32); r.addColorStop(0,'rgba(255,230,180,1)'); r.addColorStop(.25,'rgba(255,190,100,.6)'); r.addColorStop(1,'rgba(255,150,50,0)'); d.fillStyle=r; d.fillRect(0,0,64,64)}
+const sparkMat=new THREE.PointsMaterial({size:.12, map:new THREE.CanvasTexture(dc), transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, opacity:.9});
+scene.add(new THREE.Points(sg,sparkMat));
+
+/* ---------- scroll ---------- */
+const show=document.getElementById('show');
+function progress(){ const r=show.getBoundingClientRect(); return clamp(-r.top/(r.height-innerHeight)); }
+const beats=[...document.querySelectorAll('.beat')];
+const cards=[1,2,3,4].map(i=>document.getElementById('c'+i));
+const dots=[...document.querySelectorAll('#progress span')];
+const svg=document.getElementById('lines');
+const halo=document.getElementById('halo'), word=document.getElementById('bigword'), nav=document.getElementById('nav');
+const CARD_T=[.58,.66,.74,.82];
+
+let mx=0,my=0,smx=0,smy=0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5; my=e.clientY/innerHeight-.5},{passive:true});
+let mobile=false;
+function resize(){ const w=stage.clientWidth,h=stage.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); mobile=w<760; }
+addEventListener('resize',resize); resize();
+
+let sp_=0; const clock=new THREE.Clock(); let intro=reduce?1:0;
+const tmp=new THREE.Vector3(), tmp2=new THREE.Vector3(), q=new THREE.Quaternion(), heroQ=new THREE.Quaternion();
+const viewP=document.getElementById('view-producto');
+function frame(){
+  if(viewP.hidden){ clock.getDelta(); nav.classList.add('light'); requestAnimationFrame(frame); return; }
+  const dt=Math.min(clock.getDelta(),.05), t=clock.elapsedTime;
+  const target=progress(); sp_ += (target-sp_)*(reduce?1:1-Math.pow(.0008,dt)); const p=sp_;
+  intro=Math.min(1,intro+dt/1.6); const ie=easeOut(intro);
+  smx+=(mx-smx)*.05; smy+=(my-smy)*.05;
+  const M=mobile;
+
+  /* bolsa */
+  const open=sstep(.07,.13,p), leave=sstep(.30,.44,p);
+  const bagY = lerp(-3.5,0,ie) + (M?.35:0) - .9*sstep(.08,.28,p) - 4.5*leave + (reduce?0:Math.sin(t*1.1)*.05);
+  bag.position.set(0,bagY,0);
+  bag.scale.setScalar((M?.72:1)*lerp(.7,1,ie)*lerp(1,.8,sstep(.08,.28,p)));
+  bag.rotation.set(-.22*sstep(.08,.22,p)+smy*.25, (1-ie)*-2.4 + smx*.5 + (reduce?0:Math.sin(t*.6)*.15)*(1-open), .05*(1-open));
+  bag.visible = leave<.999;
+  // tira superior arrancada
+  strip.position.set(1.6*open, 1.4*open, .5*open); strip.rotation.set(0,0,-1.1*open);
+  strip.visible = open<.98;
+  strip.children.forEach(m=>{m.material.transparent=true; m.material.opacity=1-sstep(.6,1,open)});
+  bag.updateMatrixWorld();
+
+  /* cogotes */
+  const focus=sstep(.45,.57,p), exit=sstep(.95,1,p);
+  snacks.forEach((s,i)=>{
+    const e=clamp((p-.10-s.userData.delay)/.14);
+    s.visible = e>0;
+    if(!s.visible) return;
+    const ee=easeOut(e);
+    const start=tmp.copy(s.userData.start); bag.localToWorld(start);
+    const end=tmp2.copy(s.userData.cloud); if(M){ end.x*=.42; end.y=end.y*.75+.9; }
+    const mid=new THREE.Vector3(start.x*.5+end.x*.2, Math.max(start.y,end.y)+1.4, (start.z+end.z)/2);
+    // bezier cuadrática
+    const a=1-ee, pos=new THREE.Vector3().addScaledVector(start,a*a).addScaledVector(mid,2*a*ee).addScaledVector(end,ee*ee);
+    // flotar
+    if(!reduce){ pos.y+=Math.sin(t*.9+i)*.08*ee; pos.x+=Math.cos(t*.7+i*2)*.05*ee; }
+    let sc=lerp(.3,(i===0?.7:.58),ee)*(M?.75:1);
+    const tt=reduce?0:t;
+    const rx=.35*Math.sin(tt*.8+i), ry=.6*Math.sin(tt*.55+i*2)+(1-ee)*5, rz=(s.userData.rot0.z%1.2)-.6+(1-ee)*2;
+    s.rotation.set(rx,ry,rz);
+    if(i===0){
+      // foco: al centro y grande, girando con el scroll
+      const fpos=new THREE.Vector3(0, M?1.0:-.05, 2.2);
+      pos.lerp(fpos,focus);
+      sc=lerp(sc, M?.95:1.12, focus);
+      q.setFromEuler(s.rotation);
+      heroQ.setFromEuler(new THREE.Euler(.08+smy*.3, -.3+(p-.57)*.9+smx*.45, 0));
+      q.slerp(heroQ, focus); s.quaternion.copy(q);
+      sc*=lerp(1,.6,exit);
+    } else {
+      pos.z -= 3*focus; pos.x *= 1+focus*.4; pos.y *= 1+focus*.3;
+    }
+    s.position.copy(pos); s.scale.setScalar(sc);
+  });
+  neckMat.opacity=1;
+
+  /* luces y halo */
+  spot.intensity=.6+focus*.9;
+  halo.style.setProperty('--hs', (1+focus*.35+open*.15).toFixed(3));
+  halo.style.setProperty('--ho', (.75+focus*.25).toFixed(3));
+  word.style.setProperty('--wo', (1-sstep(.05,.2,p)).toFixed(3));
+  if(!reduce){ const a=sg.attributes.position.array; for(let i=0;i<N;i++){a[i*3+1]+=sv[i]*dt*(1+open*2); if(a[i*3+1]>4.2)a[i*3+1]=-4.2} sg.attributes.position.needsUpdate=true; }
+
+  /* textos */
+  beats.forEach(b=>{ const a=+b.dataset.a, z=+b.dataset.b; const o=(a<0?1:sstep(a-.02,a+.02,p))*(1-sstep(z-.02,z+.02,p)); b.style.opacity=o.toFixed(3); b.style.visibility=o<.01?'hidden':'visible'; });
+
+  /* fichas de componentes */
+  hero.updateMatrixWorld();
+  const W_=stage.clientWidth, H_=stage.clientHeight, sr=stage.getBoundingClientRect();
+  let html='';
+  cards.forEach((c,i)=>{
+    const o=sstep(CARD_T[i],CARD_T[i]+.03,p)*(1-sstep(.94,.97,p));
+    c.style.setProperty('--o',o.toFixed(3)); c.style.visibility=o<.01?'hidden':'visible';
+    dots[i].classList.toggle('on', o>.5);
+    if(o<.01) return;
+    const v=ANCH[i].clone(); hero.localToWorld(v); v.project(camera);
+    const ax=(v.x+1)/2*W_, ay=(1-v.y)/2*H_;
+    const cr=c.getBoundingClientRect();
+    const left = cr.left+cr.width/2 < W_/2;
+    let ex, ey;
+    if(M){ ex = cr.left - sr.left + 26; ey = cr.top - sr.top; }
+    else { ex = left ? cr.right - sr.left : cr.left - sr.left; ey = cr.top - sr.top + 24; }
+    const kx = M ? ax : (left ? ex+40 : ex-40);
+    const pulse = reduce?0:(Math.sin(t*3+i)*.5+.5);
+    html += `<g opacity="${o.toFixed(3)}"><path d="M${ax},${ay} L${kx},${M?ay:ey} L${ex},${ey}"/>`+
+            `<circle class="ring" cx="${ax}" cy="${ay}" r="${10+pulse*6}" opacity="${1-pulse*.7}"/><circle class="dot" cx="${ax}" cy="${ay}" r="9"/><text x="${ax}" y="${ay}">${i+1}</text></g>`;
+  });
+  svg.innerHTML=html;
+
+  nav.classList.toggle('light', show.getBoundingClientRect().bottom < 60);
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+})();
+</script>
+<!-- Datos reales de la tienda: precios, tamaños y stock (los genera el servidor) -->
+<script src="js/datos.js"></script>
+<script src="js/productos.js"></script>
+<script>
+/* ---------- compra: usa el mismo carrito que la tienda ---------- */
+(function(){
+  const ID=window.FICHA_ID, CLAVE='tienda-carrito-v2', SEP='::', MAX=99;
+  const $=id=>document.getElementById(id);
+  const toast=$('toast'); let tt;
+  const say=m=>{toast.textContent=m; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>toast.classList.remove('on'),2600)};
+  const leer=()=>{ try{ return JSON.parse(localStorage.getItem(CLAVE))||{}; }catch(e){ return {}; } };
+  const guardar=c=>{ try{ localStorage.setItem(CLAVE,JSON.stringify(c)); }catch(e){} };
+  const contar=()=>{ $('contador').textContent=Object.values(leer()).reduce((a,n)=>a+(Number(n)||0),0); };
+  const p=(typeof PRODUCTOS!=='undefined'?PRODUCTOS:[]).find(x=>x.id===ID);
+  const T=typeof TIENDA!=='undefined'?TIENDA:{locale:'es-CL',moneda:'CLP'};
+  const dinero=new Intl.NumberFormat(T.locale||'es-CL',{style:'currency',currency:T.moneda||'CLP'});
+  contar();
+  if(!p){ $('agregar').disabled=true; $('precio').textContent='No disponible por ahora'; return; }
+  if(p.descripcion) $('compra-desc').textContent=p.descripcion;
+  $('compra-eyebrow').textContent=`N°${String(PRODUCTOS.indexOf(p)+1).padStart(2,'0')} · ${p.nombre} · ${p.categoria||''}`;
+  if(T.envioGratisDesde) $('envio').textContent=`Envío gratis en pedidos sobre ${dinero.format(T.envioGratisDesde)}.`;
+  const ops=(p.opciones&&p.opciones.length)?p.opciones:[{nombre:'',precio:p.precio}];
+  let elegida=ops.find(o=>!o.agotado)||ops[0];
+  function pintar(){
+    $('precio').textContent=dinero.format(elegida.precio);
+    const agotado=p.stock===false||elegida.agotado;
+    $('agregar').disabled=agotado; $('agregar').textContent=agotado?'Agotado':'Agregar al carrito';
+    [...$('opciones').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.n===elegida.nombre)));
+  }
+  if(ops[0].nombre){
+    ops.forEach(o=>{
+      const b=document.createElement('button'); b.type='button'; b.className='opcion'+(o.agotado?' agotada':''); b.dataset.n=o.nombre;
+      b.textContent=o.nombre+(o.agotado?' · agotado':''); b.addEventListener('click',()=>{elegida=o; pintar();});
+      $('opciones').append(b);
+    });
+  }
+  pintar();
+  $('agregar').addEventListener('click',()=>{
+    if(p.stock===false||elegida.agotado) return;
+    const c=leer(), k=ID+SEP+elegida.nombre;
+    if((c[k]||0)>=MAX){ say(`Máximo ${MAX} unidades`); return; }
+    c[k]=(c[k]||0)+1; guardar(c); contar();
+    say(`${p.nombre}${elegida.nombre?' '+elegida.nombre:''} agregado al carrito`);
+  });
+  addEventListener('storage',contar);
+})();
+</script>
+</body>
+</html>
+</script>

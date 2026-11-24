@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Legado</title>
+  <meta name="description" content="Snacks naturales para perros, hechos con cariño en Chile. Envío gratis sobre $30.000.">
+  <meta name="theme-color" content="#2b1d14">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Colores propios de cada tienda: se cambian en css/marca.css -->
+  <link rel="stylesheet" href="css/marca.css">
+  <link rel="stylesheet" href="css/compra.css">
+</head>
+<body>
+  <!-- Líneas verticales de grilla, típicas de las webs de arquitectura -->
+  <div class="lineas" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <header class="cabecera" id="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a href="#inicio" class="marca" id="marca">Atelier</a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#coleccion">Colección</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#preguntas">Ayuda</a>
+      </nav>
+      <div class="cabecera__acciones">
+        <button type="button" class="btn-carrito" id="abrir-cuenta">Mi cuenta</button>
+        <button type="button" class="btn-carrito" id="abrir-carrito" aria-label="Abrir carrito">
+          Carrito <span class="contador" id="contador">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="contenedor hero">
+      <div class="hero__meta etiqueta-texto">
+        <span id="hero-etiqueta">(01) Inicio</span>
+        <span id="hero-ciudad"></span>
+        <span id="hero-envio"></span>
+      </div>
+      <h1 class="hero__titulo" id="titular"></h1>
+      <div class="hero__pie">
+        <p class="hero__bajada" id="bajada"></p>
+        <a href="#coleccion" class="enlace enlace--grande">Ver colección <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="hero__figura" id="hero-figura"></figure>
+    </section>
+
+    <div class="cinta" aria-hidden="true"><div class="cinta__pista" id="cinta"></div></div>
+
+    <section class="contenedor seccion" id="coleccion">
+      <header class="seccion__cabecera">
+        <span class="etiqueta-texto">(02)</span>
+        <h2 class="seccion__titulo">Colección</h2>
+        <span class="etiqueta-texto" id="conteo"></span>
+      </header>
+      <div class="controles">
+        <div class="filtros" id="filtros" role="group" aria-label="Categorías"></div>
+        <div class="controles__der">
+          <input type="search" id="buscar" class="buscador" placeholder="Buscar…" aria-label="Buscar productos">
+          <div class="vista" role="group" aria-label="Tipo de vista">
+            <button type="button" id="vista-grilla" aria-pressed="true">Grilla</button>
+            <button type="button" id="vista-indice" aria-pressed="false">Índice</button>
+          </div>
+        </div>
+      </div>
+      <p class="sin-resultados" id="sin-resultados" hidden>No encontramos productos con esa búsqueda.</p>
+      <div class="productos" id="productos" data-vista="grilla"></div>
+    </section>
+
+    <section class="seccion seccion--oscura" id="nosotros">
+      <div class="contenedor">
+        <header class="seccion__cabecera">
+          <span class="etiqueta-texto">(03)</span>
+          <h2 class="seccion__titulo">Nosotros</h2>
+        </header>
+        <p class="declaracion" id="nosotros-frase"></p>
+        <ol class="valores" id="valores"></ol>
+      </div>
+    </section>
+
+    <section class="contenedor seccion" id="preguntas">
+      <header class="seccion__cabecera">
+        <span class="etiqueta-texto">(04)</span>
+        <h2 class="seccion__titulo">Preguntas frecuentes</h2>
+      </header>
+      <div class="acordeon" id="acordeon"></div>
+      <div class="ayuda-cta">
+        <p>¿No encuentras tu respuesta?</p>
+        <button type="button" class="btn btn--solido" id="abrir-asistente">Hablar con el asistente</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie__columnas">
+        <div class="pie__descripcion">
+          <p class="etiqueta-texto">La tienda</p>
+          <p id="pie-descripcion"></p>
+        </div>
+        <div>
+          <p class="etiqueta-texto">Contacto</p>
+          <button type="button" class="enlace" id="pie-whatsapp">WhatsApp</button>
+          <a class="enlace" id="pie-correo" href="#"></a>
+        </div>
+        <div>
+          <p class="etiqueta-texto">Ubicación</p>
+          <p id="pie-ciudad"></p>
+        </div>
+        <div>
+          <p class="etiqueta-texto">Navegación</p>
+          <a class="enlace" href="#coleccion">Colección</a>
+          <a class="enlace" href="#nosotros">Nosotros</a>
+          <a class="enlace" href="#preguntas">Ayuda</a>
+        </div>
+      </div>
+      <p class="pie__marca" id="pie-marca" aria-hidden="true"></p>
+      <p class="pie__legal etiqueta-texto">© <span id="anio"></span> <span id="pie-nombre"></span> — Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- Carrito -->
+  <div class="fondo" id="fondo" hidden></div>
+  <aside class="carrito" id="carrito" role="dialog" aria-modal="true" aria-labelledby="titulo-carrito" inert>
+    <div class="carrito__cabecera">
+      <h2 id="titulo-carrito">Carrito</h2>
+      <button type="button" class="btn-icono" id="cerrar-carrito" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <div class="carrito__items" id="items"></div>
+    <div class="carrito__pie">
+      <div class="envio-gratis" id="envio-gratis" hidden>
+        <p id="envio-gratis-texto"></p>
+        <div class="envio-gratis__barra"><span id="envio-gratis-barra"></span></div>
+      </div>
+      <div class="total"><span class="etiqueta-texto">Subtotal</span><strong id="total">$0</strong></div>
+      <button type="button" class="btn btn--solido btn--ancho" id="ir-a-pagar">Ir a pagar</button>
+      <details class="otra-forma">
+        <summary>Prefiero pedir por WhatsApp</summary>
+        <label class="campo">Tu nombre
+          <input type="text" id="cliente-nombre" autocomplete="name" maxlength="60">
+        </label>
+        <label class="campo">Notas (dirección, tamaño…)
+          <textarea id="cliente-notas" rows="2" maxlength="300"></textarea>
+        </label>
+        <button type="button" class="btn btn--ancho" id="pedir">Pedir por WhatsApp</button>
+      </details>
+      <button type="button" class="enlace enlace--suave" id="vaciar">Vaciar carrito</button>
+    </div>
+  </aside>
+
+  <!-- Pago -->
+  <div class="fondo" id="fondo-compra" hidden></div>
+  <aside class="panel" id="pago" role="dialog" aria-modal="true" aria-labelledby="titulo-pago" inert>
+    <div class="carrito__cabecera">
+      <h2 id="titulo-pago">Pagar</h2>
+      <button type="button" class="btn-icono" data-cerrar aria-label="Cerrar pago">✕</button>
+    </div>
+    <form class="panel__cuerpo" id="form-pago" novalidate>
+      <p class="aviso-pruebas" id="aviso-pruebas" hidden>Modo de prueba: los pagos son <b>simulados</b> y no se cobra dinero real.</p>
+      <p class="panel__sesion" id="pago-sesion"></p>
+
+      <fieldset class="grupo">
+        <legend class="etiqueta-texto">1 · Tus datos</legend>
+        <label class="campo">Nombre y apellido <input name="nombre" autocomplete="name" maxlength="80" required></label>
+        <label class="campo">Correo <input name="email" type="email" autocomplete="email" maxlength="120" required></label>
+        <label class="campo">Teléfono <input name="telefono" type="tel" autocomplete="tel" maxlength="20" placeholder="+56 9 1234 5678" required></label>
+      </fieldset>
+
+      <fieldset class="grupo" id="grupo-despacho">
+        <legend class="etiqueta-texto">2 · Despacho</legend>
+        <label class="campo">Dirección <input name="direccion" autocomplete="street-address" maxlength="160" placeholder="Calle, número, depto." required></label>
+        <div class="campos-2">
+          <label class="campo">Comuna <input name="comuna" autocomplete="address-level2" maxlength="60" required></label>
+          <label class="campo">Región <select name="region" id="region" autocomplete="address-level1"></select></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="grupo">
+        <legend class="etiqueta-texto">3 · Cómo quieres pagar</legend>
+        <div class="metodos" id="metodos"></div>
+      </fieldset>
+
+      <label class="campo">Notas para el pedido (opcional) <textarea name="notas" rows="2" maxlength="300"></textarea></label>
+      <label class="check" id="guardar-datos-caja" hidden><input type="checkbox" name="guardarDatos" checked> Guardar mis datos para la próxima compra</label>
+
+      <div class="resumen" id="resumen"></div>
+      <p class="error-form" id="error-pago" role="alert" hidden></p>
+      <button type="submit" class="btn btn--solido btn--ancho" id="boton-pagar">Pagar</button>
+      <p class="nota-segura">🔒 Los datos de tu tarjeta se ingresan directamente en el medio de pago. Nunca pasan por esta página.</p>
+    </form>
+  </aside>
+
+  <!-- Mi cuenta -->
+  <aside class="panel" id="cuenta" role="dialog" aria-modal="true" aria-labelledby="titulo-cuenta" inert>
+    <div class="carrito__cabecera">
+      <h2 id="titulo-cuenta">Mi cuenta</h2>
+      <button type="button" class="btn-icono" data-cerrar aria-label="Cerrar mi cuenta">✕</button>
+    </div>
+    <div class="panel__cuerpo">
+      <!-- Entrar -->
+      <form id="form-entrar" class="pasos" data-modo="entrar">
+        <p>Entra para comprar más rápido y ver tus pedidos.</p>
+        <label class="campo">Correo <input name="email" type="email" autocomplete="username" maxlength="120" required></label>
+        <label class="campo">Contraseña <input name="clave" type="password" autocomplete="current-password" maxlength="128" required></label>
+        <button type="submit" class="btn btn--solido btn--ancho">Entrar</button>
+        <div class="enlaces-cuenta">
+          <button type="button" class="enlace" data-ir="crear">Crear una cuenta</button>
+          <button type="button" class="enlace enlace--suave" data-ir="recuperar">¿Olvidaste tu contraseña?</button>
+        </div>
+      </form>
+      <!-- Crear cuenta -->
+      <form id="form-crear" class="pasos" data-modo="crear" hidden>
+        <p>Crea tu cuenta: tus datos quedan guardados para la próxima compra.</p>
+        <label class="campo">Correo <input name="email" type="email" autocomplete="username" maxlength="120" required></label>
+        <label class="campo">Contraseña <input name="clave" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+        <label class="campo">Repite la contraseña <input name="clave2" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+        <p class="nota-campo">Mínimo 8 caracteres.</p>
+        <button type="submit" class="btn btn--solido btn--ancho">Crear cuenta</button>
+        <button type="button" class="enlace" data-ir="entrar">Ya tengo cuenta</button>
+      </form>
+      <!-- Olvidé mi contraseña: 1) pedir código -->
+      <form id="form-recuperar" class="pasos" data-modo="recuperar" hidden>
+        <p>Te enviaremos un código a tu correo para crear una contraseña nueva.</p>
+        <label class="campo">Correo <input name="email" type="email" autocomplete="username" maxlength="120" required></label>
+        <button type="submit" class="btn btn--solido btn--ancho">Enviarme el código</button>
+        <button type="button" class="enlace" data-ir="entrar">Volver</button>
+      </form>
+      <!-- Olvidé mi contraseña: 2) código + clave nueva -->
+      <form id="form-restablecer" class="pasos" data-modo="restablecer" hidden>
+        <p id="restablecer-texto"></p>
+        <label class="campo">Código <input name="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" required></label>
+        <label class="campo">Contraseña nueva <input name="clave" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+        <label class="campo">Repite la contraseña <input name="clave2" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+        <button type="submit" class="btn btn--solido btn--ancho">Guardar y entrar</button>
+        <button type="button" class="enlace" data-ir="entrar">Volver</button>
+      </form>
+      <div id="vista-cuenta" class="pasos" hidden>
+        <p class="etiqueta-texto" id="cuenta-email"></p>
+        <form id="form-perfil" class="pasos">
+          <p class="panel__subtitulo">Mis datos</p>
+          <label class="campo">Nombre y apellido <input name="nombre" autocomplete="name" maxlength="80"></label>
+          <label class="campo">Teléfono <input name="telefono" type="tel" autocomplete="tel" maxlength="20"></label>
+          <label class="campo">Dirección <input name="direccion" autocomplete="street-address" maxlength="160"></label>
+          <div class="campos-2">
+            <label class="campo">Comuna <input name="comuna" autocomplete="address-level2" maxlength="60"></label>
+            <label class="campo">Región <select name="region" id="region-perfil" autocomplete="address-level1"></select></label>
+          </div>
+          <button type="submit" class="btn btn--ancho">Guardar mis datos</button>
+        </form>
+        <p class="panel__subtitulo">Mis pedidos</p>
+        <div id="mis-pedidos" class="mis-pedidos"></div>
+        <details class="otra-forma">
+          <summary>Cambiar mi contraseña</summary>
+          <form id="form-clave" class="pasos">
+            <label class="campo">Contraseña actual <input name="actual" type="password" autocomplete="current-password" maxlength="128" required></label>
+            <label class="campo">Contraseña nueva <input name="nueva" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+            <label class="campo">Repite la nueva <input name="nueva2" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+            <button type="submit" class="btn btn--ancho">Cambiar contraseña</button>
+          </form>
+        </details>
+        <a class="enlace" id="ir-admin" href="/admin/" hidden>Ir al panel de administración →</a>
+        <button type="button" class="enlace enlace--suave" id="salir">Cerrar sesión</button>
+      </div>
+      <p class="error-form" id="error-cuenta" role="alert" hidden></p>
+    </div>
+  </aside>
+
+  <!-- Asistente -->
+  <button type="button" class="chat-boton" id="chat-boton" aria-expanded="false" aria-controls="chat">
+    <span class="chat-boton__punto" aria-hidden="true"></span> ¿Necesitas ayuda?
+  </button>
+  <section class="chat" id="chat" role="dialog" aria-labelledby="chat-titulo" inert>
+    <header class="chat__cabecera">
+      <div>
+        <p class="chat__titulo" id="chat-titulo">Asistente</p>
+        <p class="chat__estado etiqueta-texto"><span class="chat-boton__punto" aria-hidden="true"></span> En línea · responde al instante</p>
+      </div>
+      <button type="button" class="btn-icono" id="chat-cerrar" aria-label="Cerrar asistente">✕</button>
+    </header>
+    <div class="chat__mensajes" id="chat-mensajes" aria-live="polite"></div>
+    <form class="chat__form" id="chat-form">
+      <input type="text" id="chat-input" placeholder="Escribe tu consulta…" autocomplete="off" maxlength="300" aria-label="Escribe tu consulta">
+      <button type="submit" class="chat__enviar" aria-label="Enviar">→</button>
+    </form>
+  </section>
+
+  <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+  <!-- productos.js lo genera el servidor a partir de datos/productos.json -->
+  <script src="js/datos.js"></script>
+  <script src="js/productos.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/asistente.js"></script>
+  <script src="js/compra.js"></script>
+<div class="aviso-previa" role="note">Pronto podr&aacute;s pagar en l&iacute;nea. Mientras, pide por WhatsApp desde el carrito.</div>
+<style>
+.aviso-previa{position:fixed;z-index:60;left:16px;bottom:16px;max-width:min(380px,calc(100% - 190px));
+  background:#e07b4c;color:#1a0c04;font:600 12px/1.35 Inter,system-ui,sans-serif;padding:8px 14px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+@media (max-width:520px){.aviso-previa{max-width:calc(100% - 32px);bottom:72px}}
+</style>
+<script>
+document.addEventListener('click', function (e) {
+  var b = e.target.closest && e.target.closest('#ir-a-pagar, #abrir-cuenta');
+  if (!b) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  var m = 'El pago en lÃ­nea y las cuentas se activan pronto. Mientras, puedes pedir por WhatsApp desde el carrito.';
+  if (window.Tienda && Tienda.aviso) Tienda.aviso(m);
+}, true);
+</script>
+</body>
+</html>

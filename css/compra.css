@@ -1,0 +1,183 @@
+/* Pago, Mi cuenta, página de pedido y panel de administración */
+
+.cabecera__acciones { justify-self: end; display: flex; align-items: center; gap: 20px; }
+.cabecera__fila--simple { grid-template-columns: 1fr auto; }
+
+/* ----- Paneles laterales (pago y cuenta) ----- */
+.panel {
+  position: fixed; top: 0; right: 0; z-index: 50;
+  width: min(520px, 100%); height: 100%; height: 100dvh;
+  display: flex; flex-direction: column; background: var(--papel);
+  border-left: 1px solid var(--linea);
+  transform: translateX(100%); visibility: hidden;
+  transition: transform 0.6s var(--ease), visibility 0s linear 0.6s;
+}
+.panel.abierto { transform: none; visibility: visible; transition: transform 0.6s var(--ease); }
+.panel .carrito__cabecera h2 { font-family: var(--serif); font-weight: 400; font-size: 2.2rem; }
+.panel__cuerpo { flex: 1; overflow-y: auto; padding: 20px 24px 32px; display: flex; flex-direction: column; gap: 18px; }
+.panel__sesion { font-size: 0.88rem; color: var(--suave); }
+.panel__subtitulo { font-family: var(--serif); font-size: 1.5rem; margin-top: 8px; }
+#fondo-compra { z-index: 45; }
+
+.pasos { display: flex; flex-direction: column; gap: 14px; }
+.grupo { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.grupo legend { padding: 0; margin-bottom: 10px; }
+.campos-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.campo select {
+  padding: 8px 0; border: 0; border-bottom: 1px solid var(--linea); background: transparent;
+  color: var(--tinta); outline: none; width: 100%;
+}
+.campo select:focus { border-color: var(--tinta); }
+.campo input:user-invalid { border-color: #c0392b; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 0.85rem; color: var(--suave); cursor: pointer; }
+
+.aviso-pruebas {
+  padding: 10px 14px; border-radius: 10px; font-size: 0.82rem;
+  background: color-mix(in srgb, #f0c94a 22%, var(--papel)); border: 1px solid color-mix(in srgb, #f0c94a 60%, transparent);
+}
+.error-form {
+  padding: 10px 14px; border-radius: 10px; font-size: 0.85rem;
+  background: color-mix(in srgb, #c0392b 12%, var(--papel)); color: color-mix(in srgb, #c0392b 80%, var(--tinta));
+}
+.nota-segura { font-size: 0.75rem; color: var(--suave); text-align: center; }
+
+/* Medios de pago */
+.metodos { display: flex; flex-direction: column; gap: 8px; }
+.metodo {
+  display: flex; gap: 12px; align-items: flex-start; padding: 14px; cursor: pointer;
+  border: 1px solid var(--linea); border-radius: 12px; transition: border-color 0.3s, background 0.3s;
+}
+.metodo:hover { border-color: var(--tinta); }
+.metodo:has(input:checked) { border-color: var(--tinta); background: var(--superficie); }
+.metodo input { margin-top: 3px; accent-color: var(--acento); }
+.metodo__texto { display: flex; flex-direction: column; gap: 2px; }
+.metodo__texto small { color: var(--suave); font-size: 0.8rem; }
+
+/* Resumen de totales */
+.resumen { display: flex; flex-direction: column; gap: 8px; padding: 16px 0; border-top: 1px solid var(--linea); }
+.resumen__fila { display: flex; justify-content: space-between; gap: 16px; font-size: 0.9rem; }
+.resumen__fila span:first-child { color: var(--suave); }
+.resumen__fila--linea { border-top: 1px solid var(--linea); padding-top: 10px; margin-top: 4px; }
+.resumen__fila--total { align-items: baseline; }
+.resumen__fila--total span { font-family: var(--serif); font-size: 1.9rem; color: var(--tinta) !important; }
+.resumen__nota { font-size: 0.78rem; color: var(--suave); }
+
+/* "Prefiero pedir por WhatsApp" en el carrito */
+.otra-forma summary { cursor: pointer; font-size: 0.85rem; color: var(--suave); text-align: center; padding: 4px; }
+.otra-forma[open] { display: flex; flex-direction: column; gap: 10px; }
+.otra-forma .btn { border-color: var(--tinta); background: transparent; }
+
+/* Mis pedidos */
+.mis-pedidos { display: flex; flex-direction: column; }
+.mi-pedido {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--linea); text-decoration: none;
+}
+.mi-pedido span:first-child { display: flex; flex-direction: column; }
+.mi-pedido small { color: var(--suave); font-size: 0.75rem; }
+.mi-pedido:hover strong { color: var(--acento); }
+
+/* Etiquetas de estado */
+.estado {
+  display: inline-block; padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  font-size: 0.72rem; font-weight: 600; background: var(--linea);
+}
+.estado--pagado { background: #d8f0e1; color: #1d6b41; }
+.estado--enviado, .estado--entregado { background: #dfe9f7; color: #24508f; }
+.estado--rechazado, .estado--anulado { background: #f6dcd8; color: #9a2d1f; }
+.estado--esperando_transferencia, .estado--pago_al_retirar, .estado--pendiente_pago { background: #f8edcf; color: #8a6312; }
+
+/* ----- Página del pedido y panel ----- */
+.hoja { position: relative; z-index: 1; max-width: 720px; padding: 64px 0 96px; display: flex; flex-direction: column; gap: 18px; }
+.hoja--ancha { max-width: 1100px; }
+.hoja__titulo { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -0.02em; }
+.hoja__texto { color: var(--suave); font-size: 1.05rem; max-width: 56ch; }
+.hoja__acciones { display: flex; gap: 12px; flex-wrap: wrap; }
+.instrucciones {
+  white-space: pre-wrap; font-family: var(--sans); font-size: 0.95rem; margin: 0;
+  padding: 16px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--linea);
+}
+.resumen--hoja { margin-top: 12px; }
+
+.ingreso { max-width: 440px; display: flex; flex-direction: column; gap: 20px; }
+.panel-admin__cabecera { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.panel-admin__controles { display: flex; gap: 10px; align-items: center; }
+.panel-admin__controles select { padding: 10px 12px; border-radius: 999px; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); }
+.tarjetas-resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.tarjeta-resumen { display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--linea); border-radius: 14px; background: var(--superficie); }
+.tarjeta-resumen strong { font-family: var(--serif); font-weight: 400; font-size: 2.2rem; }
+
+.lista-pedidos { display: flex; flex-direction: column; border-top: 1px solid var(--linea); }
+.pedido-admin { border-bottom: 1px solid var(--linea); }
+.pedido-admin summary {
+  display: grid; grid-template-columns: 170px 1fr auto 110px; gap: 16px; align-items: center;
+  padding: 16px 4px; cursor: pointer; list-style: none;
+}
+.pedido-admin summary::-webkit-details-marker { display: none; }
+.pedido-admin summary:hover { background: var(--superficie); }
+.pedido-admin__codigo, .pedido-admin__cliente { display: flex; flex-direction: column; min-width: 0; }
+.pedido-admin small { color: var(--suave); font-size: 0.75rem; }
+.pedido-admin__total { text-align: right; }
+.pedido-admin__detalle {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; padding: 4px 4px 24px; font-size: 0.9rem;
+}
+.pedido-admin__detalle ul { margin: 6px 0; padding-left: 18px; }
+.pedido-admin__detalle p { margin: 4px 0; }
+.pedido-admin__acciones { grid-column: 1 / -1; display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Cuenta: enlaces bajo el formulario de ingreso */
+.enlaces-cuenta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.nota-campo { margin: -8px 0 0; font-size: 0.78rem; color: var(--suave); }
+
+/* Panel: pestañas */
+.pestanas { display: flex; gap: 6px; margin: 8px 0 28px; border-bottom: 1px solid var(--linea); }
+.pestana {
+  font: inherit; font-size: 0.9rem; background: none; border: 0; color: var(--suave); cursor: pointer;
+  padding: 10px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.pestana[aria-pressed="true"] { color: var(--tinta); border-bottom-color: var(--acento); font-weight: 600; }
+.vista-admin { display: flex; flex-direction: column; gap: 20px; }
+
+/* Panel: productos y stock */
+.ayuda-stock {
+  font-size: 0.88rem; padding: 14px 16px; border-radius: 12px; background: var(--superficie);
+  border: 1px solid var(--linea); display: grid; gap: 6px;
+}
+.ayuda-stock p { margin: 0; }
+.lista-productos { display: grid; gap: 16px; }
+.producto-admin {
+  border: 1px solid var(--linea); border-radius: 14px; padding: 18px; display: grid; gap: 14px;
+  background: var(--papel); transition: opacity 0.2s;
+}
+.producto-admin.guardando { opacity: 0.5; pointer-events: none; }
+.producto-admin--pausado { background: var(--superficie); }
+.producto-admin--pausado .stock-fila { opacity: 0.55; }
+.producto-admin__cabecera { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.producto-admin__cabecera h2 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; }
+.producto-admin__pie { display: flex; justify-content: flex-end; }
+.interruptor { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; }
+.interruptor input { width: 18px; height: 18px; accent-color: var(--acento); }
+.stock-fila {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.3fr; gap: 12px; align-items: end;
+  padding-top: 14px; border-top: 1px solid var(--linea);
+}
+/* Sin min-width: 0 los campos de número estiran la grilla y la tarjeta se sale de la pantalla en celular */
+.producto-admin, .stock-fila > * { min-width: 0; }
+.stock-fila input { width: 100%; min-width: 0; box-sizing: border-box; }
+.stock-fila__nombre { display: flex; flex-direction: column; gap: 4px; align-self: center; }
+.stock-estado { font-size: 0.78rem; color: var(--suave); }
+.stock-estado--agotado { color: #c0392b; font-weight: 600; }
+.stock-sumar { display: flex; gap: 6px; }
+.stock-sumar input { flex: 1; min-width: 0; }
+.btn-sumar { padding: 0 16px; font-size: 1.1rem; }
+
+@media (max-width: 760px) {
+  .stock-fila { grid-template-columns: 1fr 1fr; }
+  .stock-fila__nombre { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; }
+  .cabecera__acciones { gap: 14px; }
+  .campos-2 { grid-template-columns: 1fr; }
+  .pedido-admin summary { grid-template-columns: 1fr auto; }
+  .pedido-admin__cliente { grid-column: 1; }
+  .pedido-admin__detalle { grid-template-columns: 1fr; }
+  .hoja { padding-top: 40px; }
+}

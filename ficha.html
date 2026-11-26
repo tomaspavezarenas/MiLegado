@@ -30,18 +30,18 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.55; overflow-x:hidden}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:15px; line-height:1.55; overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--studio)}
 
 /* nav */
 .nav{position:fixed; z-index:30; left:0; right:0; top:env(safe-area-inset-top,0px); display:flex; align-items:center; justify-content:space-between; gap:16px;
   padding-block:14px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); color:var(--cream); mix-blend-mode:normal}
 .nav.light{color:var(--ink)}
-.logo{font-family:var(--f-display); font-size:22px; color:inherit; text-decoration:none}
+.logo{font-family:var(--f-display); font-size:20px; color:inherit; text-decoration:none}
 .nav ul{display:flex; gap:26px; list-style:none; margin:0; padding:0}
 .nav ul a{color:inherit; text-decoration:none; font-weight:700; font-size:14px; opacity:.75}
 .nav ul a:hover{opacity:1}
-.btn{appearance:none; border:0; cursor:pointer; font:inherit; font-weight:800; font-size:15px; padding:12px 20px; border-radius:999px;
+.btn{appearance:none; border:0; cursor:pointer; font:inherit; font-weight:800; font-size:14px; padding:10px 17px; border-radius:999px;
   text-decoration:none; display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--bg); transition:transform .2s ease}
 .btn:hover{transform:translateY(-2px)}
 .btn.orange{background:var(--orange); color:#2a1206}
@@ -55,8 +55,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .halo{position:absolute; left:50%; top:50%; width:70vmin; height:70vmin; transform:translate(-50%,-50%) scale(var(--hs,1)); border-radius:50%;
   background:radial-gradient(circle, rgba(242,118,27,.55) 0%, rgba(242,118,27,.12) 45%, transparent 70%); filter:blur(20px); opacity:var(--ho,.8); pointer-events:none}
 .bigword{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding-bottom:4vh; pointer-events:none;
-  font-family:var(--f-display); font-size:clamp(60px,15vw,240px); line-height:1; white-space:nowrap; color:transparent;
-  -webkit-text-stroke:1.5px rgba(255,196,107,.55); opacity:var(--wo,1)}
+  font-family:var(--f-display); font-size:clamp(46px,11vw,170px); line-height:1; white-space:nowrap; color:transparent;
+  -webkit-text-stroke:1.5px rgba(255,196,107,.55); opacity:var(--wo,1); flex-direction:column; gap:14px}
+.bigsub{font-family:var(--f-body); font-weight:600; font-size:clamp(12px,1.4vw,18px); letter-spacing:.32em; text-transform:uppercase;
+  color:var(--gold); -webkit-text-stroke:0; line-height:1.2}
 #scene{position:absolute; inset:0; width:100%; height:100%; display:block}
 svg.lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
 svg.lines path{fill:none; stroke:var(--gold); stroke-width:1.5}
@@ -110,11 +112,11 @@ svg.lines text{fill:#1a0c04; font:700 12px var(--f-mono); text-anchor:middle; do
 
 /* ---------- páginas kraft ---------- */
 .sec{position:relative}
-.inner{width:100%; max-width:1180px; margin:0 auto; padding-block:96px;
+.inner{width:100%; max-width:1180px; margin:0 auto; padding-block:64px;
   padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
 .eyebrow{font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; opacity:.72; margin:0 0 14px}
-h2.t{font-family:var(--f-display); font-weight:400; font-size:clamp(36px,4.6vw,62px); line-height:1; margin:0 0 20px; text-wrap:balance}
-.lead{font-size:18px; max-width:52ch; margin:0 0 24px}
+h2.t{font-family:var(--f-display); font-weight:400; font-size:clamp(30px,3.4vw,46px); line-height:1; margin:0 0 20px; text-wrap:balance}
+.lead{font-size:16px; max-width:52ch; margin:0 0 24px}
 .small{font-size:13px; opacity:.75; max-width:62ch; margin:0}
 .split{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:48px; align-items:start}
 .photo{margin:0; position:sticky; top:90px}
@@ -123,21 +125,21 @@ h2.t{font-family:var(--f-display); font-weight:400; font-size:clamp(36px,4.6vw,6
 table{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
 .tablewrap{overflow-x:auto; background:var(--paper); border-radius:18px; padding:6px 18px 10px; margin:0 0 14px; box-shadow:inset 0 0 0 1.5px var(--ink)}
 caption{caption-side:top; text-align:left; font-weight:800; padding:12px 0 6px; font-size:15px}
-th,td{padding:9px 0; text-align:left; border-top:1px solid var(--line); font-size:15px}
+th,td{padding:8px 0; text-align:left; border-top:1px solid var(--line); font-size:14px}
 td:last-child,th:last-child{text-align:right; font-family:var(--f-mono); font-size:14px}
 thead th{font-family:var(--f-mono); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:.1em; opacity:.7; border-top:0}
 tr.big td{font-weight:800; font-size:17px; border-top:2px solid var(--ink)}
 .cols{display:grid; grid-template-columns:1fr 1fr; gap:14px}
 .care{list-style:none; padding:0; margin:0; display:grid; gap:10px}
-.care li{padding-left:26px; position:relative; font-size:15px}
+.care li{padding-left:24px; position:relative; font-size:14px}
 .care li::before{content:""; position:absolute; left:0; top:.4em; width:13px; height:13px; border-radius:4px; background:var(--orange); box-shadow:inset 0 0 0 1.5px var(--ink)}
 .cta{background:var(--orange); color:#2a1206}
 .cta .inner{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:40px; align-items:center}
-.cta h2.t{font-size:clamp(40px,6vw,84px)}
+.cta h2.t{font-size:clamp(32px,4.4vw,58px)}
 .cta .btn{background:#2a1206; color:var(--orange)}
 .cta .btn.ghost{background:transparent; color:#2a1206; box-shadow:inset 0 0 0 1.5px #2a1206}
 .cta .row{display:flex; gap:12px; flex-wrap:wrap}
-.label{width:220px; max-width:100%; border-radius:16px; transform:rotate(4deg); box-shadow:0 20px 40px rgba(42,18,6,.35)}
+.label{width:190px; max-width:100%; border-radius:16px; transform:rotate(4deg); box-shadow:0 20px 40px rgba(42,18,6,.35)}
 .contact{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:18px; font-family:var(--f-mono); font-size:14px}
 .contact code{background:rgba(255,255,255,.35); padding:6px 10px; border-radius:8px; user-select:all; font-family:inherit}
 .copy{appearance:none; border:0; background:transparent; color:inherit; font:inherit; font-size:13px; text-decoration:underline; cursor:pointer}
@@ -154,7 +156,7 @@ footer{text-align:center; font-family:var(--f-mono); font-size:12px; opacity:.65
 .opcion{appearance:none; border:0; cursor:pointer; font:600 14px var(--f-body); padding:9px 16px; border-radius:999px; background:transparent; color:#2a1206; box-shadow:inset 0 0 0 1.5px #2a1206}
 .opcion[aria-pressed="true"]{background:#2a1206; color:var(--orange)}
 .opcion.agotada{opacity:.5; text-decoration:line-through}
-.precio{font-family:var(--f-display); font-size:44px; line-height:1; margin:0; font-variant-numeric:tabular-nums}
+.precio{font-family:var(--f-display); font-size:34px; line-height:1; margin:0; font-variant-numeric:tabular-nums}
 .envio{font-size:13px; margin:12px 0 0; opacity:.8}
 .btn:disabled{opacity:.5; cursor:not-allowed; transform:none}
 .cta .contact a{color:inherit; font-weight:700}
@@ -192,11 +194,29 @@ footer{text-align:center; font-family:var(--f-mono); font-size:12px; opacity:.65
   .pimg{min-height:240px}
   .nav ul{display:none}
   .hint{display:none}
-  .b1,.b2{left:16px; right:16px; top:auto; bottom:8%; transform:none; text-align:left; max-width:none}
-  .card{width:auto; left:16px!important; right:16px!important; top:auto!important; padding:10px 14px}
-  .card .v{font-size:20px; margin:4px 0 2px}
+  /* celular: textos abajo, compactos; las 4 fichas en una grilla de 2x2 que no se monta */
+  .b0{left:12px; right:12px; bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .b0.panel, .panel{max-width:none}
+  .beat.panel{padding:12px 14px}
+  .beat.panel h1{font-size:15px}
+  .beat.panel h2{font-size:21px}
+  .panel p{font-size:13px}
+  .b0 .row{margin-top:10px; gap:8px}
+  .b1,.b2{left:12px; right:12px; top:auto; bottom:calc(12px + env(safe-area-inset-bottom,0px)); transform:none; text-align:left; max-width:none}
+  .b3{top:auto; bottom:calc(12px + env(safe-area-inset-bottom,0px)); left:12px; right:12px; transform:none; text-align:left}
+  .b5{left:12px; right:12px; transform:none; bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .comptitle{top:calc(92px + env(safe-area-inset-top,0px))}
+  .card{width:calc(50% - 18px); top:auto!important; padding:8px 10px; min-height:58px; border-radius:10px}
+  .card h3{font-size:11px}
+  .card .v{font-size:13.5px; margin:3px 0 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .card p{display:none}
-  .c1{bottom:calc(8px + 3*74px)} .c2{bottom:calc(8px + 2*74px)} .c3{bottom:calc(8px + 74px)} .c4{bottom:8px}
+  .c1,.c3{left:12px!important; right:auto!important}
+  .c2,.c4{right:12px!important; left:auto!important}
+  .c1,.c2{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  .c3,.c4{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .inner{padding-block:44px}
+  .back{top:calc(56px + env(safe-area-inset-top,0px)); font-size:12px}
+  .nav{padding-block:10px}
   .split,.cols,.cta .inner{grid-template-columns:1fr}
   .photo{position:relative; top:0}
   .label{display:none}
@@ -223,7 +243,7 @@ footer{text-align:center; font-family:var(--f-mono); font-size:12px; opacity:.65
 <section id="show" aria-label="Presentación 3D del producto">
   <div class="stage" id="stage">
     <div class="halo" id="halo"></div>
-    <div class="bigword" id="bigword" aria-hidden="true">MI LEGADO</div>
+    <div class="bigword" id="bigword" aria-hidden="true"><span>MI LEGADO</span><span class="bigsub">Snacks naturales para perros</span></div>
     <canvas id="scene" aria-hidden="true"></canvas>
     <svg class="lines" id="lines" aria-hidden="true"></svg>
 
@@ -374,7 +394,7 @@ const F = FICHAS[window.FICHA_ID] || FICHAS['cogotes-de-pollo'];
   filas(tablas[1].querySelector('tbody'),F.porciones.filas);
   q('.care').replaceChildren(...F.cuidados.map(t=>{ const li=document.createElement('li'); li.textContent=t; return li; }));
   txt('#info .small',F.nota);
-  const foto=q('#info .photo img'); if(F.foto){ foto.src=F.foto; } else { foto.src=F.imagen.src; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; }
+  const foto=q('#info .photo img'); if(F.foto && !/\.png$/i.test(F.foto)){ foto.src=F.foto; } else if(F.foto){ foto.src=F.foto; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; foto.style.padding='6%'; } else { foto.src=F.imagen.src; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; }
   foto.alt=F.titulo; txt('#info figcaption',`${F.titulo} · Mi Legado`);
   txt('#ctaTitle',null);
 })();
@@ -505,7 +525,7 @@ function buildLabel(){
   roundRect(g,LW/2-110,880,220,64,32); g.fill();
   g.fillStyle='#f2761b'; g.font='800 30px "Manrope", sans-serif'; g.fillText(F.etiqueta.sello||'PESO NETO 100 g',LW/2,923);
   g.fillStyle=INK; g.font='500 22px "DM Mono", monospace';
-  g.fillText('+569 6167 4210  ·  @mi.legado.snack',LW/2,1000);
+  g.fillText('+56 9 8310 8524  ·  @mi.legado.snack',LW/2,1000);
   try{ const url=lab.toDataURL('image/png'); ['homeLabel','ctaLabel'].forEach(id=>{const el=document.getElementById(id); if(el) el.src=url;}); }catch(e){}
 }
 function drawFront(){
@@ -529,10 +549,11 @@ function drawBack(){
   g.fillText('Sin harinas · Sin cereales · Sin colorantes',512,950);
   g.font='500 22px "DM Mono", monospace';
   g.fillText('Dar siempre bajo supervisión · Mantener en lugar fresco y seco',512,1010);
-  g.fillText('+569 6167 4210  ·  @mi.legado.snack',512,1240);
+  g.fillText('+56 9 8310 8524  ·  @mi.legado.snack',512,1240);
   backTex.needsUpdate=true;
 }
-function redraw(){drawFront(); drawBack()}
+var labTex=null;   // etiqueta como sticker (solo en la bolsa al vacío)
+function redraw(){drawFront(); drawBack(); if(labTex) labTex.needsUpdate=true;}
 labelImg.onload=()=>{extractEmblem(); redraw()}; labelImg.src='img/cogotes/label.jpg';
 winImg.onload=redraw; if(F.ventana) winImg.src=F.ventana;
 prodImg.onload=redraw; prodImg.src=F.imagen.src;
@@ -559,16 +580,51 @@ function face(tex,sign,v0,v1,open){
   geo.computeVertexNormals();
   return new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex, roughness:.62, clearcoat:.35, clearcoatRoughness:.5, side:THREE.DoubleSide}));
 }
-const bag=new THREE.Group();
-bag.add(face(frontTex,1,0,CUT,true), face(backTex,-1,0,CUT,true));
-const seamMat=new THREE.MeshStandardMaterial({color:0xb88d5d, roughness:.9});
-[-1,1].forEach(sx=>{const m=new THREE.Mesh(new THREE.BoxGeometry(.035,H*CUT,.02),seamMat); m.position.set(sx*W/2,-H/2+H*CUT/2,0); bag.add(m)});
-// interior oscuro de la boca
-const mouth=new THREE.Mesh(new THREE.CircleGeometry(1,40), new THREE.MeshBasicMaterial({color:0x120804}));
-mouth.scale.set(W*.47,.11,1); mouth.rotation.x=-Math.PI/2; mouth.position.y=-H/2+H*CUT-.06; bag.add(mouth);
-const strip=new THREE.Group();
-strip.add(face(frontTex,1,CUT,1,false), face(backTex,-1,CUT,1,false));
-bag.add(strip);
+// Empaque: bolsa kraft (por defecto) o bolsa transparente al vacío (F.empaque === 'vacio', ej. fémur)
+const VAC = F.empaque === 'vacio';
+// medidas de la bolsa al vacío: se ajusta a la forma del producto (alto/ancho de su foto)
+const SEAL=.16, VAC_AR=F.imagen.alto/F.imagen.ancho;
+const BH=VAC_AR>1 ? 2.5 : 1.55, BW=VAC_AR>1 ? (BH-2*SEAL-.15)/VAC_AR+.35 : 2.5;
+const vacFilms=[]; let vacSealBottom=null, vacSticker=null;
+let bag, strip, innerBone=null;
+if(!VAC){
+  bag=new THREE.Group();
+  bag.add(face(frontTex,1,0,CUT,true), face(backTex,-1,0,CUT,true));
+  const seamMat=new THREE.MeshStandardMaterial({color:0xb88d5d, roughness:.9});
+  [-1,1].forEach(sx=>{const m=new THREE.Mesh(new THREE.BoxGeometry(.035,H*CUT,.02),seamMat); m.position.set(sx*W/2,-H/2+H*CUT/2,0); bag.add(m)});
+  // interior oscuro de la boca
+  const mouth=new THREE.Mesh(new THREE.CircleGeometry(1,40), new THREE.MeshBasicMaterial({color:0x120804}));
+  mouth.scale.set(W*.47,.11,1); mouth.rotation.x=-Math.PI/2; mouth.position.y=-H/2+H*CUT-.06; bag.add(mouth);
+  strip=new THREE.Group();
+  strip.add(face(frontTex,1,CUT,1,false), face(backTex,-1,CUT,1,false));
+  bag.add(strip);
+} else {
+  bag=new THREE.Group();
+  // film plástico pegado al producto, con arrugas del vacío
+  const filmMat=new THREE.MeshPhysicalMaterial({color:0xffffff, transparent:true, opacity:.2, roughness:.05, metalness:0, clearcoat:1, clearcoatRoughness:.04, side:THREE.DoubleSide, depthWrite:false});
+  const film=(sign,h,yc,puff)=>{
+    const geo=new THREE.PlaneGeometry(BW,h,70,36); geo.translate(0,yc,0);
+    const p=geo.attributes.position;
+    for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i);
+      const ax=Math.max(0,1-Math.pow(2*x/BW,2)), ay=Math.max(0,1-Math.pow(2*(y-yc)/h,2));
+      const arruga=.03*Math.sin(x*11+y*4)*Math.sin(y*13-x*3)+.018*Math.sin(x*23+y*2)+.012*Math.sin(y*31);
+      p.setZ(i, sign*(puff*Math.pow(ax*ay,.55)+arruga*ax*ay+.006)); }
+    geo.computeVertexNormals(); const m=new THREE.Mesh(geo,filmMat); m.renderOrder=sign>0?3:0; return m;
+  };
+  vacFilms.push(film(1,BH-2*SEAL,0,.2), film(-1,BH-2*SEAL,0,.2)); vacFilms.forEach(m=>bag.add(m));
+  // sellos estriados arriba y abajo
+  const sc=document.createElement('canvas'); sc.width=512; sc.height=48; const sg2=sc.getContext('2d');
+  sg2.fillStyle='rgba(255,255,255,.28)'; sg2.fillRect(0,0,512,48);
+  sg2.strokeStyle='rgba(255,255,255,.55)'; sg2.lineWidth=2; for(let x=0;x<512;x+=7){ sg2.beginPath(); sg2.moveTo(x,6); sg2.lineTo(x,42); sg2.stroke(); }
+  const sealTex=new THREE.CanvasTexture(sc);
+  const seal=(y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(BW,SEAL), new THREE.MeshPhysicalMaterial({map:sealTex, transparent:true, roughness:.25, clearcoat:.8, side:THREE.DoubleSide, depthWrite:false})); m.position.y=y; m.renderOrder=3; return m; };
+  vacSealBottom=seal(-BH/2+SEAL/2); bag.add(vacSealBottom);
+  strip=new THREE.Group(); strip.add(seal(BH/2-SEAL/2)); bag.add(strip);
+  // etiqueta Mi Legado pegada como sticker sobre el plástico
+  labTex=new THREE.CanvasTexture(lab); labTex.encoding=THREE.sRGBEncoding; labTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  const sticker=new THREE.Mesh(new THREE.PlaneGeometry(.6,.6*LH/LW), new THREE.MeshStandardMaterial({map:labTex, roughness:.45, transparent:true}));
+  sticker.position.set(BW/2-.36,-BH/2+SEAL+.5,.215); sticker.rotation.z=.05; sticker.renderOrder=4; bag.add(sticker); vacSticker=sticker;
+}
 scene.add(bag);
 
 /* ---------- cogotes de pollo procedurales ---------- */
@@ -633,8 +689,8 @@ function makeNeck(seed){
   return g;
 }
 
-const COUNT=9, snacks=[];
-const cloud=[[.95,.55,.6],[-2.3,1.1,-.6],[2.4,1.2,-1],[-1.4,-1.1,.3],[2.0,-1.2,-.2],[-2.9,-.2,-1.4],[3.1,.1,-1.6],[-.6,1.6,-1.2],[.4,-1.6,-.8]];
+const COUNT=VAC?1:9, snacks=[];   // al vacío viene una sola pieza: sale solo esa
+const cloud=VAC?[[0,.1,.9]]:[[.95,.55,.6],[-2.3,1.1,-.6],[2.4,1.2,-1],[-1.4,-1.1,.3],[2.0,-1.2,-.2],[-2.9,-.2,-1.4],[3.1,.1,-1.6],[-.6,1.6,-1.2],[.4,-1.6,-.8]];
 /* cogote real: recorte de la foto del producto, con leve volumen y halo de brillo */
 const cutTex=new THREE.TextureLoader().load(F.imagen.src); cutTex.encoding=THREE.sRGBEncoding; cutTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
 const CW=1.9, CH=1.9*F.imagen.alto/F.imagen.ancho;
@@ -644,11 +700,11 @@ const snackGeo=(()=>{ const geo=new THREE.PlaneGeometry(CW,CH,24,24), p=geo.attr
 function makeSnack(i){
   const r=rng(i*97+5);
   const inner=new THREE.Group();
-  const glow=new THREE.Mesh(snackGeo,new THREE.MeshBasicMaterial({map:cutTex, color:0xff8a2a, transparent:true, opacity:.32, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.DoubleSide}));
-  glow.scale.setScalar(1.08); glow.position.z=-.04;
+  // sombra suave detrás de la pieza (en vez de un halo brillante): se ve como una foto real
+  // solo la foto del producto, sin sombras ni halos alrededor
   const mat=new THREE.MeshBasicMaterial({map:cutTex, transparent:true, depthWrite:false, side:THREE.DoubleSide});
-  mat.color.setScalar(.86+.14*r());
-  inner.add(glow,new THREE.Mesh(snackGeo,mat));
+  mat.color.setScalar(.9+.1*r());
+  inner.add(new THREE.Mesh(snackGeo,mat));
   if(i%2===1) inner.scale.x=-1;
   const g=new THREE.Group(); g.add(inner); return g;
 }
@@ -657,11 +713,16 @@ for(let i=0;i<COUNT;i++){
   m.userData.cloud=new THREE.Vector3(...cloud[i]);
   m.userData.spin=new THREE.Vector3((Math.random()-.5)*2,(Math.random()-.5)*2,(Math.random()-.5)*2);
   m.userData.rot0=new THREE.Euler(Math.random()*6,Math.random()*6,Math.random()*6);
-  m.userData.start=new THREE.Vector3((i%3-1)*.35,-H/2+H*CUT-.5,0);
+  m.userData.start=VAC?new THREE.Vector3(0,0,0):new THREE.Vector3((i%3-1)*.35,-H/2+H*CUT-.5,0);
   m.userData.delay=i*.012;
   snacks.push(m); scene.add(m);
 }
 const hero=snacks[0];
+// al vacío: el mismo hueso se ve dentro del plástico hasta que sale
+if(VAC){
+  innerBone=new THREE.Mesh(snackGeo,new THREE.MeshBasicMaterial({map:cutTex, transparent:true, depthWrite:false, side:THREE.DoubleSide}));
+  innerBone.scale.setScalar(Math.min((BW-.32)/CW, (BH-2*SEAL-.08)/CH)); innerBone.renderOrder=1; bag.add(innerBone);
+}
 // puntos sobre la foto del cogote (u,v): punta de cartílago, lomo con vértebras, carne, borde de piel
 const ANCH=F.imagen.anclas.map(([u,v])=>new THREE.Vector3((u-.5)*CW,(.5-v)*CH,.1));
 
@@ -702,40 +763,54 @@ function frame(){
 
   /* bolsa */
   const open=sstep(.07,.13,p), leave=sstep(.30,.44,p);
-  const bagY = lerp(-3.5,0,ie) + (M?.35:0) - .9*sstep(.08,.28,p) - 4.5*leave + (reduce?0:Math.sin(t*1.1)*.05);
-  bag.position.set(0,bagY,0);
-  bag.scale.setScalar((M?.72:1)*lerp(.7,1,ie)*lerp(1,.8,sstep(.08,.28,p)));
-  bag.rotation.set(-.22*sstep(.08,.22,p)+smy*.25, (1-ie)*-2.4 + smx*.5 + (reduce?0:Math.sin(t*.6)*.15)*(1-open), .05*(1-open));
-  bag.visible = leave<.999;
-  // tira superior arrancada
-  strip.position.set(1.6*open, 1.4*open, .5*open); strip.rotation.set(0,0,-1.1*open);
-  strip.visible = open<.98;
-  strip.children.forEach(m=>{m.material.transparent=true; m.material.opacity=1-sstep(.6,1,open)});
+  if(!VAC){
+    const bagY = lerp(-3.5,0,ie) + (M?.95:0) - .9*sstep(.08,.28,p) - 4.5*leave + (reduce?0:Math.sin(t*1.1)*.05);
+    bag.position.set(0,bagY,0);
+    bag.scale.setScalar((M?.6:.88)*lerp(.7,1,ie)*lerp(1,.8,sstep(.08,.28,p)));
+    bag.rotation.set(-.22*sstep(.08,.22,p)+smy*.25, (1-ie)*-2.4 + smx*.5 + (reduce?0:Math.sin(t*.6)*.15)*(1-open), .05*(1-open));
+    bag.visible = leave<.999;
+    // tira superior arrancada
+    strip.position.set(1.6*open, 1.4*open, .5*open); strip.rotation.set(0,0,-1.1*open);
+    strip.visible = open<.98;
+    strip.children.forEach(m=>{m.material.transparent=true; m.material.opacity=1-sstep(.6,1,open)});
+  } else {
+    // al vacío: no se abre una bolsa; el vacío "se suelta": el plástico se infla y desaparece, los sellos se separan y el sticker cae
+    const rel=sstep(.06,.18,p);
+    bag.position.set(0, lerp(-3.5,0,ie) + (M?.75:.05) + (reduce?0:Math.sin(t*1.1)*.05)*(1-rel), 0);
+    bag.scale.setScalar((M?.62:.82)*lerp(.7,1,ie));
+    bag.rotation.set(smy*.25*(1-rel), (1-ie)*-2.4 + (smx*.5 + (reduce?0:Math.sin(t*.6)*.15))*(1-rel), .04*(1-rel));
+    vacFilms.forEach(m=>{ m.material.opacity=.2*(1-rel); m.scale.set(1+.12*rel, 1+.08*rel, 1+2.5*rel); });
+    strip.position.set(0, .9*rel, 0); strip.children.forEach(m=>{ m.material.opacity=1-rel; });
+    vacSealBottom.position.y=-BH/2+SEAL/2-.9*rel; vacSealBottom.material.opacity=1-rel;
+    vacSticker.position.y=-BH/2+SEAL+.5-1.6*rel*rel; vacSticker.rotation.z=.05+1.3*rel; vacSticker.material.opacity=1-sstep(.5,1,rel);
+    bag.visible = rel<.999 || !hero.visible;
+  }
   bag.updateMatrixWorld();
 
   /* cogotes */
   const focus=sstep(.45,.57,p), exit=sstep(.95,1,p);
   snacks.forEach((s,i)=>{
-    const e=clamp((p-.10-s.userData.delay)/.14);
+    const e=VAC ? clamp((p-.16)/.2) : clamp((p-.10-s.userData.delay)/.14);
     s.visible = e>0;
     if(!s.visible) return;
     const ee=easeOut(e);
     const start=tmp.copy(s.userData.start); bag.localToWorld(start);
-    const end=tmp2.copy(s.userData.cloud); if(M){ end.x*=.42; end.y=end.y*.75+.9; }
-    const mid=new THREE.Vector3(start.x*.5+end.x*.2, Math.max(start.y,end.y)+1.4, (start.z+end.z)/2);
+    const end=tmp2.copy(s.userData.cloud); if(M){ end.x*=.42; end.y = VAC ? .45 : end.y*.75+.9; }
+    const mid=VAC ? start.clone().lerp(end,.5) : new THREE.Vector3(start.x*.5+end.x*.2, Math.max(start.y,end.y)+1.4, (start.z+end.z)/2);
     // bezier cuadrática
     const a=1-ee, pos=new THREE.Vector3().addScaledVector(start,a*a).addScaledVector(mid,2*a*ee).addScaledVector(end,ee*ee);
     // flotar
     if(!reduce){ pos.y+=Math.sin(t*.9+i)*.08*ee; pos.x+=Math.cos(t*.7+i*2)*.05*ee; }
-    let sc=lerp(.3,(i===0?.7:.58),ee)*(M?.75:1);
+    let sc=VAC ? lerp(bag.scale.x*innerBone.scale.x, (M?.55:.72), ee) : lerp(.3,(i===0?.6:.5),ee)*(M?.62:1);
     const tt=reduce?0:t;
-    const rx=.35*Math.sin(tt*.8+i), ry=.6*Math.sin(tt*.55+i*2)+(1-ee)*5, rz=(s.userData.rot0.z%1.2)-.6+(1-ee)*2;
+    // al vacío: el hueso queda libre y da una vuelta completa para mostrarse
+    const rx=.35*Math.sin(tt*.8+i)*(VAC?ee*.4:1), ry=VAC ? ee*Math.PI*2 + .3*Math.sin(tt*.55)*ee : .6*Math.sin(tt*.55+i*2)+(1-ee)*5, rz=VAC?0:(s.userData.rot0.z%1.2)-.6+(1-ee)*2;
     s.rotation.set(rx,ry,rz);
     if(i===0){
       // foco: al centro y grande, girando con el scroll
-      const fpos=new THREE.Vector3(0, M?1.0:-.05, 2.2);
+      const fpos=new THREE.Vector3(0, M?.55:-.05, 2.2);
       pos.lerp(fpos,focus);
-      sc=lerp(sc, M?.95:1.12, focus);
+      sc=lerp(sc, (M?.48:.92)*(VAC?.9:1), focus);
       q.setFromEuler(s.rotation);
       heroQ.setFromEuler(new THREE.Euler(.08+smy*.3, -.3+(p-.57)*.9+smx*.45, 0));
       q.slerp(heroQ, focus); s.quaternion.copy(q);
@@ -745,6 +820,7 @@ function frame(){
     }
     s.position.copy(pos); s.scale.setScalar(sc);
   });
+  if(innerBone) innerBone.visible=!hero.visible;
   neckMat.opacity=1;
 
   /* luces y halo */

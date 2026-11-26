@@ -7,15 +7,15 @@
 
 const TIENDA = {
   nombre: "Mi Legado",
-  etiquetaInicio: "100% natural",
+  etiquetaInicio: "Snacks para perros",
   // Lo que va entre *asteriscos* se muestra en cursiva y color.
-  titular: "Un legado de *cariño* en cada bocado",
-  bajada: "Snacks premium para perros y gatos, elaborados con ingredientes reales y sin rellenos. La calidad que tu mascota merece.",
+  titular: "Un legado de *cariño* para tu perro",
+  bajada: "Snacks y masticables naturales para perros: un solo ingrediente, sin rellenos. Premios de verdad para tu mejor amigo de cuatro patas.",
   descripcionPie: "Snacks naturales para perros y gatos, hechos con cariño en Chile. Premios que se ganan con cada colita feliz.",
 
-  // Número de contacto impreso en la etiqueta de las bolsas (+569 6167 4210).
-  // Con código de país, sin "+" ni espacios. Cámbialo aquí si los pedidos van a otro número.
-  whatsapp: "56961674210",
+  // WhatsApp para pedidos: +56 9 8310 8524.
+  // Con código de país (56), sin "+" ni espacios. Cámbialo aquí si los pedidos van a otro número.
+  whatsapp: "56983108524",
   correo: "correo@milegadosnack.cl", // ⚠️ revisar: es el que aparece en la página de contacto
   ciudad: "Hecho en Chile",
   envio: "Envío gratis sobre $30.000",
@@ -23,11 +23,11 @@ const TIENDA = {
   moneda: "CLP",
   locale: "es-CL",
   destacado: "patitas-de-pollo", // producto que se muestra grande en la portada
-  cinta: ["Envío gratis sobre $30.000", "100% ingredientes naturales", "Hecho en Chile", "Despacho en 24-48 horas"],
+  cinta: ["Snacks naturales para perros", "Envío gratis sobre $30.000", "Un solo ingrediente", "Hecho en Chile", "Despacho en 24-48 horas"],
 };
 
 const NOSOTROS = {
-  frase: "Snacks premium elaborados con *ingredientes reales* y sin rellenos.",
+  frase: "Snacks para perros elaborados con *ingredientes reales* y sin rellenos.",
   valores: [
     { titulo: "Envío gratis", texto: "En pedidos sobre $30.000." },
     { titulo: "100% natural", texto: "Sin aditivos ni rellenos." },

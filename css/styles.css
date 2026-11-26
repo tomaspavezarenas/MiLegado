@@ -231,7 +231,7 @@ main, .pie, .cabecera { position: relative; z-index: 1; }
 .producto__marco--enlace { display: block; color: inherit; overflow: hidden; }
 .producto__marco--enlace .lamina img { transition: transform .6s ease; }
 /* Fotos de producto sin fondo (.png): se muestran completas, con aire, sobre el tono del producto */
-.lamina img[src$=".png"] { object-fit: contain; padding: 9%; filter: drop-shadow(0 14px 18px rgba(43, 29, 20, .28)); }
+.lamina img[src*=".png"] { object-fit: contain; padding: 9%; filter: drop-shadow(0 14px 18px rgba(43, 29, 20, .28)); }
 .producto__marco--enlace:hover .lamina img { transform: scale(1.04); }
 .producto__marco .sello--ver { left: 12px; right: auto; bottom: 12px; top: auto; background: var(--tinta); color: var(--papel); }
 .producto__enlace { color: inherit; text-decoration: none; }

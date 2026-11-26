@@ -9,9 +9,9 @@ const FICHAS = {
   "cogotes-de-pollo": {
     titulo: "Cogotes de Pollo",
     descripcion: "Cogotes de pollo deshidratados a baja temperatura: colágeno natural, calcio, fósforo y 52 % de proteína.",
-    imagen: { src: "img/cogotes/cogote-real.png", ancho: 1600, alto: 1338, anclas: [[.1, .12], [.62, .3], [.33, .72], [.86, .8]] },
-    ventana: "img/cogotes/ventana.jpg",
-    foto: "img/cogotes/foto.jpg",
+    imagen: { src: "img/cogotes/cogote-real.png?v=202611252207", ancho: 1600, alto: 1338, anclas: [[.1, .12], [.62, .3], [.33, .72], [.86, .8]] },
+    ventana: "img/cogotes/ventana.jpg?v=202611252207",
+    foto: "img/cogotes/foto.jpg?v=202611252207",
     etiqueta: { lineas: ["Cogote de pollo", "deshidratado"], ingrediente: "Ingrediente único: cogote de pollo deshidratado", sello: "PESO NETO 100 g" },
     portada: { eyebrow: "Snack natural para perros", titulo: "Lo natural se hereda. Cogote de pollo deshidratado: el premio crujiente que tu perro va a amar." },
     abre: { eyebrow: "Ábrela", titulo: "Huele a premio.", texto: "Cogotes enteros, dorados y crujientes. Tu perro lo va a oler antes que tú." },
@@ -19,10 +19,10 @@ const FICHAS = {
     foco: { eyebrow: "De cerca", titulo: "Fuerza natural para tu perro, mordida a mordida." },
     componentesTitulo: "Lo que hay en cada cogote",
     componentes: [
-      { parte: "Cartílago", valor: "Colágeno natural", texto: "Apoya las articulaciones, tendones y ligamentos de tu perro. Ideal para los que no paran de correr." },
-      { parte: "Hueso", valor: "Calcio y fósforo", texto: "Minerales para que tu perro tenga huesos y dientes firmes. 20 % de cenizas minerales." },
-      { parte: "Carne", valor: "52 % proteína", texto: "Proteína de alta calidad para tu perro, concentrada al quitarle el agua." },
-      { parte: "Al masticar", valor: "Dientes limpios, mente tranquila", texto: "Roer le arrastra el sarro y lo relaja. Solo 15 % de grasa." },
+      { parte: "Cartílago", valor: "Colágeno tipo II", texto: "El cartílago de pollo es fuente de condroitina y colágeno tipo II, estudiados para la salud articular (Frontiers in Nutrition, 2022)." },
+      { parte: "Vértebras", valor: "20 % minerales", texto: "Las cenizas son el mineral del hueso: calcio y fósforo, que en hueso de ave van en proporción cercana a 2 : 1." },
+      { parte: "Carne del cuello", valor: "52 % proteína", texto: "Al deshidratar se va el agua: de ~14 % de proteína en crudo pasa a 52 % (USDA / FILAN)." },
+      { parte: "Energía", valor: "343 kcal / 100 g", texto: "Solo 15 % de grasa: el más liviano de los masticables de la tienda." },
     ],
     cierre: { eyebrow: "Bolsa resellable", titulo: "El premio favorito de tu perro ya tiene nombre." },
     nutricion: {
@@ -42,14 +42,14 @@ const FICHAS = {
       "Guarda la bolsa cerrada, en lugar fresco y seco.",
       "No recomendado con alergia al pollo, enfermedad renal avanzada o problemas dentales graves.",
     ],
-    nota: "Composición referencial de cogote de pollo deshidratado, según los valores declarados por FILAN (Cogote de pollo deshidratado, 100 g). Los beneficios articulares y dentales son de apoyo y no reemplazan las indicaciones de tu veterinario. Producto exclusivo para perros: no apto para consumo humano.",
+    nota: "Composición declarada por FILAN para cogote de pollo deshidratado (100 g): proteína 52 %, grasa 15 %, cenizas 20 %, humedad 8 %, 343 kcal. Proteína en crudo: USDA FoodData Central (cuello de pollo con piel, 14,1 g/100 g). Cartílago: Frontiers in Nutrition 2022 (condroitina y colágeno tipo II de cartílago de pollo). Proporción calcio : fósforo en hueso de ave: estudio de cenizas de hueso de pollo, 2022 (1,6 a 2,5 : 1). Los beneficios articulares son de apoyo y no reemplazan las indicaciones de tu veterinario. Producto exclusivo para perros: no apto para consumo humano.",
   },
 
   "patitas-de-pollo": {
     titulo: "Patitas de Pollo",
     descripcion: "Patitas de pollo deshidratadas: cartílago con colágeno, glucosamina y condroitina, y una mordida crujiente que limpia los dientes.",
-    imagen: { src: "img/patitas/patita-real.png", ancho: 1154, alto: 1572, anclas: [[.45, .45], [.25, .15], [.3, .84], [.86, .74]] },
-    foto: "img/patitas/patitas-pila.png",
+    imagen: { src: "img/patitas/patita-real.png?v=202611252207", ancho: 1152, alto: 1571, anclas: [[.28, .2], [.45, .47], [.3, .84], [.86, .74]] },
+    foto: "img/patitas/patitas-pila.png?v=202611252207",
     etiqueta: { lineas: ["Patitas de pollo", "deshidratadas"], ingrediente: "Ingrediente único: pata de pollo deshidratada", sello: "PESO NETO 100 g" },
     portada: { eyebrow: "Snack 100 % natural para perros", titulo: "Lo natural se hereda. Patitas de pollo deshidratadas: el crunch favorito de tu perro." },
     abre: { eyebrow: "Ábrela", titulo: "Crunch garantizado.", texto: "Patitas enteras, doradas y crocantes. El snack que suena rico." },
@@ -57,10 +57,10 @@ const FICHAS = {
     foco: { eyebrow: "De cerca", titulo: "Pequeña por fuera, poderosa por dentro." },
     componentesTitulo: "Lo que hay en cada patita",
     componentes: [
-      { parte: "Articulaciones", valor: "Glucosamina y condroitina", texto: "Las patas tienen mucho cartílago: componentes que apoyan las articulaciones de tu perro." },
-      { parte: "Piel y tendones", valor: "Colágeno natural", texto: "Para las articulaciones, la piel y el pelaje de tu perro. Se ablanda al masticar." },
-      { parte: "Dedos", valor: "Huesitos crocantes", texto: "Al deshidratarse quedan quebradizos y se trituran al morder." },
-      { parte: "Al masticar", valor: "Limpieza dental", texto: "El roce arrastra la placa. 49 % de proteína por cada 100 g." },
+      { parte: "Piel y tendones", valor: "Colágeno: 71 %", texto: "Un análisis de patas de pollo encontró que cerca del 71 % de su proteína es colágeno (Polymers, 2020)." },
+      { parte: "Articulaciones", valor: "Condroitina", texto: "Cada patita tiene muchas articulaciones pequeñas, con cartílago rico en condroitina." },
+      { parte: "Huesitos", valor: "15,9 % minerales", texto: "Huesos finos que al deshidratarse quedan crocantes y se trituran al morder." },
+      { parte: "Energía", valor: "468 kcal / 100 g", texto: "29,7 % de grasa: es el más contundente de los snacks de pollo, dalo con medida." },
     ],
     cierre: { eyebrow: "Bolsa resellable", titulo: "El crunch favorito de tu perro ya tiene nombre." },
     nutricion: {
@@ -80,13 +80,13 @@ const FICHAS = {
       "Guarda la bolsa cerrada, en lugar fresco y seco.",
       "No recomendado con alergia al pollo o pancreatitis: es un snack con bastante grasa.",
     ],
-    nota: "Composición referencial de pata de pollo deshidratada, según los valores declarados por Pets & Friends (Snack garras de pollo, 100 % pata de pollo). La ración máxima equivale a cerca del 10 % de las calorías diarias. Los beneficios articulares y dentales son de apoyo y no reemplazan las indicaciones de tu veterinario. Producto exclusivo para perros: no apto para consumo humano.",
+    nota: "Composición declarada por Pets & Friends para pata de pollo deshidratada (100 % pata de pollo): proteína 49,4 %, grasa 29,7 %, cenizas 15,9 %, humedad 3,9 %, 468 kcal de energía metabolizable por 100 g. Colágeno: Polymers 2020, Valorization of Chicken Feet (≈ 70,9 % de la proteína de la pata es colágeno). La ración máxima equivale a cerca del 10 % de las calorías diarias. Los beneficios articulares son de apoyo y no reemplazan las indicaciones de tu veterinario. Producto exclusivo para perros: no apto para consumo humano.",
   },
 
   "orejas-de-cerdo": {
     titulo: "Orejas de Cerdo",
     descripcion: "Orejas de cerdo deshidratadas: masticable largo, rico en colágeno y proteína.",
-    imagen: { src: "img/orejas/oreja-real.png", ancho: 1574, alto: 1263, anclas: [[.15, .85], [.65, .35], [.42, .62], [.86, .55]] },
+    imagen: { src: "img/orejas/oreja-real.png?v=202611252207", ancho: 1574, alto: 1263, anclas: [[.15, .85], [.65, .35], [.42, .62], [.86, .55]] },
     etiqueta: { lineas: ["Orejas de cerdo", "deshidratadas"], ingrediente: "Ingrediente único: oreja de cerdo deshidratada", sello: "PESO NETO 80 g" },
     portada: { eyebrow: "Snack 100 % natural para perros", titulo: "Lo natural se hereda. Orejas de cerdo deshidratadas: el clásico que todo perro ama." },
     abre: { eyebrow: "Ábrela", titulo: "Un clásico, en su punto.", texto: "Orejas enteras, doradas y firmes. Horas de entretención sana para tu perro." },
@@ -94,10 +94,10 @@ const FICHAS = {
     foco: { eyebrow: "De cerca", titulo: "Textura firme, sabor irresistible." },
     componentesTitulo: "Lo que hay en cada oreja",
     componentes: [
-      { parte: "Cartílago", valor: "Colágeno natural", texto: "La oreja es casi toda cartílago: colágeno para las articulaciones, la piel y el pelaje de tu perro." },
-      { parte: "Piel", valor: "57 % proteína", texto: "Proteína concentrada al quitarle el agua." },
-      { parte: "Textura", valor: "Masticación larga", texto: "Firme pero flexible: entretiene sin ser tan dura como un hueso." },
-      { parte: "Energía", valor: "21 % grasa", texto: "Es un premio contundente: mejor en porciones pequeñas." },
+      { parte: "Cartílago auricular", valor: "≈ 70 % colágeno", texto: "En estudios del cartílago de oreja de cerdo, cerca del 70 % de su peso resultó ser colágeno." },
+      { parte: "Matriz del cartílago", valor: "Ácido hialurónico", texto: "El mismo estudio encontró colágeno tipo II, condroitina sulfato y ácido hialurónico." },
+      { parte: "Piel", valor: "57 % proteína", texto: "Cruda tiene 22,5 g de proteína por 100 g (USDA); deshidratada, sube a 57 %." },
+      { parte: "Energía", valor: "≈ 500 kcal / 100 g", texto: "El más energético de la tienda: un premio para darlo en trozos." },
     ],
     cierre: { eyebrow: "Orejas de cerdo · 80 g y 200 g", titulo: "El clásico favorito de tu perro ya tiene nombre." },
     nutricion: {
@@ -117,14 +117,15 @@ const FICHAS = {
       "Guarda la bolsa cerrada, en lugar fresco y seco.",
       "No recomendado con sobrepeso, pancreatitis o estómago sensible: tiene bastante grasa.",
     ],
-    nota: "Composición referencial de oreja de cerdo deshidratada, según el análisis garantizado declarado por productos equivalentes (tiras de oreja de cerdo: proteína mín. 57 %, grasa mín. 21 %, humedad máx. 8 %; energía de 502 a 530 kcal por 100 g). La ración máxima equivale a cerca del 10 % de las calorías diarias. Producto exclusivo para perros: no apto para consumo humano.",
+    nota: "Composición referencial de oreja de cerdo deshidratada según análisis garantizados de productos equivalentes (proteína mín. 57 %, grasa mín. 21 %, humedad máx. 8 %; 502 a 530 kcal por 100 g). Oreja cruda: USDA FoodData Central (22,5 g de proteína y 15,1 g de grasa por 100 g). Cartílago: estudio de cartílago auricular porcino (≈ 70 % colágeno; colágeno tipo II, condroitina sulfato y ácido hialurónico). La ración máxima equivale a cerca del 10 % de las calorías diarias. Producto exclusivo para perros: no apto para consumo humano.",
   },
 
   "femur-natural": {
     titulo: "Fémur Natural",
     descripcion: "Hueso de fémur 100 % natural para masticadores intensos: entretención larga y dientes más limpios.",
-    imagen: { src: "img/femur/femur-entero.png", ancho: 1600, alto: 1809, anclas: [[.16, .2], [.6, .56], [.4, .36], [.82, .84]] },
-    empaque: "vacio",   // bolsa transparente al vacío, con un solo hueso
+    imagen: { src: "img/femur/femur-entero.png?v=202611252207", ancho: 1600, alto: 1809, anclas: [[.16, .2], [.6, .56], [.4, .36], [.82, .84]] },
+    empaque: "vacio",   // viene sellado al vacío: se muestra la foto envasada y el plástico se abre
+    vacio: { src: "img/femur/femur-vacio.png?v=202611252207", ancho: 1280, alto: 1280 },
     etiqueta: { lineas: ["Fémur", "natural"], ingrediente: "Ingrediente único: hueso de fémur natural", sello: "AL VACÍO" },
     portada: { eyebrow: "Masticable 100 % natural para perros", titulo: "Lo natural se hereda. Hueso de fémur natural para perros, sellado al vacío para que llegue fresco." },
     abre: { eyebrow: "Sellado al vacío", titulo: "Fresco hasta que lo abres.", texto: "El plástico se suelta y aparece el fémur entero, tal como llega a tu casa." },
@@ -132,10 +133,10 @@ const FICHAS = {
     foco: { eyebrow: "De cerca", titulo: "Hecho para durar." },
     componentesTitulo: "Lo que hay en cada fémur",
     componentes: [
-      { parte: "Cabeza del hueso", valor: "Calcio y fósforo", texto: "El hueso es mineral puro: lo que tu perro roe le aporta calcio y fósforo." },
-      { parte: "Centro", valor: "Médula", texto: "Grasa y sabor naturales dentro del hueso. Lo que más disfrutan." },
-      { parte: "Carne adherida", valor: "Sabor natural", texto: "Restos de carne y tendón secos: lo primero que tu perro va a roer." },
-      { parte: "Al masticar", valor: "Dientes limpios", texto: "Roer raspa la placa y calma la energía de los perros más activos." },
+      { parte: "Cabeza del hueso", valor: "≈ 59 % minerales", texto: "En hueso de vacuno, las cenizas son cerca del 59 % del peso, con calcio y fósforo en proporción ≈ 1,9 : 1." },
+      { parte: "Médula", valor: "≈ 80–86 % grasa", texto: "La médula amarilla del vacuno es casi toda grasa: energía y el sabor que más buscan." },
+      { parte: "Carne y tendón", valor: "27 % proteína", texto: "Los restos de carne y tendón secos aportan la proteína del hueso (mín. 27 %)." },
+      { parte: "Al masticar", valor: "Roer largo", texto: "Un hueso entero da sesiones largas de mordida: entretiene y gasta energía." },
     ],
     cierre: { eyebrow: "Fémur natural al vacío · Pequeño y Grande", titulo: "El hueso favorito de tu perro ya tiene nombre." },
     nutricion: {
@@ -156,7 +157,7 @@ const FICHAS = {
       "Mantén el envase al vacío cerrado hasta usarlo. Una vez abierto, guárdalo refrigerado y dáselo pronto.",
       "Deja agua fresca a mano.",
     ],
-    nota: "Composición referencial de hueso de fémur de vacuno con médula, según el análisis garantizado declarado por Jones Natural Chews (Center Bone: proteína mín. 27 %, grasa mín. 19 %, fibra máx. 1 %, humedad máx. 4 %). La energía es una estimación nuestra a partir de esos valores. Producto exclusivo para perros: no apto para consumo humano.",
+    nota: "Composición referencial de hueso de fémur de vacuno con médula según Jones Natural Chews (proteína mín. 27 %, grasa mín. 19 %, fibra máx. 1 %, humedad máx. 4 %); la energía es una estimación nuestra. Minerales: estudio de hueso de vacuno, 1994 (cenizas 59 %; calcio ≈ 345 y fósforo ≈ 183 mg por g de ceniza). Médula: estudios de médula ósea bovina (80 % a 86 % de grasa). Producto exclusivo para perros: no apto para consumo humano.",
   },
 };
 

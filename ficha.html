@@ -291,7 +291,7 @@ footer{text-align:center; font-family:var(--f-mono); font-size:12px; opacity:.65
 <section class="sec" id="info">
   <div class="inner split">
     <figure class="photo">
-      <img src="img/cogotes/foto.jpg" alt="Cogotes de pollo deshidratados Mi Legado sobre un plato, con las bolsas kraft al fondo" style="aspect-ratio:4/3">
+      <img src="img/cogotes/foto.jpg?v=202611252207" alt="Cogotes de pollo deshidratados Mi Legado sobre un plato, con las bolsas kraft al fondo" style="aspect-ratio:4/3">
       <figcaption>Cogote de pollo deshidratado · Mi Legado</figcaption>
     </figure>
     <div>
@@ -357,14 +357,14 @@ footer{text-align:center; font-family:var(--f-mono); font-size:12px; opacity:.65
       <p class="envio" id="envio"></p>
       <div class="contact"><span>¿Dudas? Escríbenos por WhatsApp o en Instagram</span> <a href="https://www.instagram.com/mi.legado.snack/" target="_blank" rel="noopener">@mi.legado.snack</a></div>
     </div>
-    <img class="label" id="ctaLabel" src="img/cogotes/label.jpg" alt="Etiqueta Mi Legado: snack para perros y gatos, cogote de pollo deshidratado 100 g">
+    <img class="label" id="ctaLabel" src="img/cogotes/label.jpg?v=202611252207" alt="Etiqueta Mi Legado: snack para perros y gatos, cogote de pollo deshidratado 100 g">
   </div>
 </section>
 </div>
 <footer>Mi Legado · Snack para perros y gatos · @mi.legado.snack</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/fichas.js"></script>
+<script src="js/fichas.js?v=202611252207"></script>
 <script>
 /* ---------- contenido del producto (ficha.html?p=ID, textos en js/fichas.js) ---------- */
 window.FICHA_ID = (new URLSearchParams(location.search).get('p') || decodeURIComponent(location.hash.slice(1)) || 'cogotes-de-pollo');
@@ -394,7 +394,7 @@ const F = FICHAS[window.FICHA_ID] || FICHAS['cogotes-de-pollo'];
   filas(tablas[1].querySelector('tbody'),F.porciones.filas);
   q('.care').replaceChildren(...F.cuidados.map(t=>{ const li=document.createElement('li'); li.textContent=t; return li; }));
   txt('#info .small',F.nota);
-  const foto=q('#info .photo img'); if(F.foto && !/\.png$/i.test(F.foto)){ foto.src=F.foto; } else if(F.foto){ foto.src=F.foto; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; foto.style.padding='6%'; } else { foto.src=F.imagen.src; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; }
+  const foto=q('#info .photo img'); if(F.foto && !/\.png(\?|$)/i.test(F.foto)){ foto.src=F.foto; } else if(F.foto){ foto.src=F.foto; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; foto.style.padding='6%'; } else { foto.src=F.imagen.src; foto.style.objectFit='contain'; foto.style.background='#fffaf3'; }
   foto.alt=F.titulo; txt('#info figcaption',`${F.titulo} · Mi Legado`);
   txt('#ctaTitle',null);
 })();
@@ -554,7 +554,7 @@ function drawBack(){
 }
 var labTex=null;   // etiqueta como sticker (solo en la bolsa al vacío)
 function redraw(){drawFront(); drawBack(); if(labTex) labTex.needsUpdate=true;}
-labelImg.onload=()=>{extractEmblem(); redraw()}; labelImg.src='img/cogotes/label.jpg';
+labelImg.onload=()=>{extractEmblem(); redraw()}; labelImg.src='img/cogotes/label.jpg?v=202611252207';
 winImg.onload=redraw; if(F.ventana) winImg.src=F.ventana;
 prodImg.onload=redraw; prodImg.src=F.imagen.src;
 redraw();
@@ -702,7 +702,8 @@ function makeSnack(i){
   const inner=new THREE.Group();
   // sombra suave detrás de la pieza (en vez de un halo brillante): se ve como una foto real
   // solo la foto del producto, sin sombras ni halos alrededor
-  const mat=new THREE.MeshBasicMaterial({map:cutTex, transparent:true, depthWrite:false, side:THREE.DoubleSide});
+  // toneMapped:false = la foto se ve con sus colores reales, sin el filtro de luz de la escena
+  const mat=new THREE.MeshBasicMaterial({map:cutTex, transparent:true, depthWrite:false, side:THREE.DoubleSide, toneMapped:false});
   mat.color.setScalar(.9+.1*r());
   inner.add(new THREE.Mesh(snackGeo,mat));
   if(i%2===1) inner.scale.x=-1;
@@ -715,13 +716,39 @@ for(let i=0;i<COUNT;i++){
   m.userData.rot0=new THREE.Euler(Math.random()*6,Math.random()*6,Math.random()*6);
   m.userData.start=VAC?new THREE.Vector3(0,0,0):new THREE.Vector3((i%3-1)*.35,-H/2+H*CUT-.5,0);
   m.userData.delay=i*.012;
+  // las piezas que quedan más al fondo se ven un poco más oscuras (profundidad, como en una foto)
+  m.userData.mat=m.children[0].children[0].material;
+  if(i>0) m.userData.mat.color.setScalar(.62+.38*clamp((m.userData.cloud.z+1.7)/2.2));
   snacks.push(m); scene.add(m);
 }
 const hero=snacks[0];
 // al vacío: el mismo hueso se ve dentro del plástico hasta que sale
-if(VAC){
-  innerBone=new THREE.Mesh(snackGeo,new THREE.MeshBasicMaterial({map:cutTex, transparent:true, depthWrite:false, side:THREE.DoubleSide}));
-  innerBone.scale.setScalar(Math.min((BW-.32)/CW, (BH-2*SEAL-.08)/CH)); innerBone.renderOrder=1; bag.add(innerBone);
+// Al vacío: encima del producto va la foto real del producto ENVASADO. Al bajar, el plástico se abre
+// de un extremo al otro (con un borde de luz) y deja ver el producto real debajo, en la misma posición.
+let sealUni=null;
+if(VAC && F.vacio){
+  bag.visible=false;
+  const sealTex=new THREE.TextureLoader().load(F.vacio.src); sealTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  const SH=CH*1.06, SW=SH*F.vacio.ancho/F.vacio.alto;
+  sealUni={ map:{value:sealTex}, prog:{value:0}, time:{value:0} };
+  const sealMat=new THREE.ShaderMaterial({ uniforms:sealUni, transparent:true, depthWrite:false, side:THREE.DoubleSide,
+    vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader:[
+      'uniform sampler2D map; uniform float prog; uniform float time; varying vec2 vUv;',
+      'float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }',
+      'float n(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(h(i),h(i+vec2(1.,0.)),f.x), mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x), f.y); }',
+      'void main(){',
+      '  vec4 c=texture2D(map,vUv);',
+      '  float d=vUv.x*.55+(1.0-vUv.y)*.45+(n(vUv*7.0)-.5)*.12;',          // avance de la apertura, con borde irregular
+      '  float t=prog*1.3-.15;',
+      '  float keep=smoothstep(t,t+.06,d);',
+      '  float edge=(1.0-smoothstep(0.0,.05,abs(d-t)))*step(.001,prog)*step(prog,.999);',
+      '  float s=fract(time*.12); float band=1.0-smoothstep(0.0,.05,abs(vUv.x*.7+vUv.y*.3-(s*1.6-.3)));', // reflejo que recorre el plástico
+      '  vec3 col=c.rgb+vec3(1.0)*band*.22*(1.0-prog)+vec3(1.0,.95,.85)*edge*.7;',
+      '  gl_FragColor=vec4(col, c.a*keep+edge*c.a*.5);',
+      '}'].join('\n') });
+  const sealMesh=new THREE.Mesh(new THREE.PlaneGeometry(SW,SH), sealMat); sealMesh.position.z=.2; sealMesh.renderOrder=5;
+  hero.children[0].add(sealMesh);
 }
 // puntos sobre la foto del cogote (u,v): punta de cartílago, lomo con vértebras, carne, borde de piel
 const ANCH=F.imagen.anclas.map(([u,v])=>new THREE.Vector3((u-.5)*CW,(.5-v)*CH,.1));
@@ -774,22 +801,32 @@ function frame(){
     strip.visible = open<.98;
     strip.children.forEach(m=>{m.material.transparent=true; m.material.opacity=1-sstep(.6,1,open)});
   } else {
-    // al vacío: no se abre una bolsa; el vacío "se suelta": el plástico se infla y desaparece, los sellos se separan y el sticker cae
-    const rel=sstep(.06,.18,p);
-    bag.position.set(0, lerp(-3.5,0,ie) + (M?.75:.05) + (reduce?0:Math.sin(t*1.1)*.05)*(1-rel), 0);
-    bag.scale.setScalar((M?.62:.82)*lerp(.7,1,ie));
-    bag.rotation.set(smy*.25*(1-rel), (1-ie)*-2.4 + (smx*.5 + (reduce?0:Math.sin(t*.6)*.15))*(1-rel), .04*(1-rel));
-    vacFilms.forEach(m=>{ m.material.opacity=.2*(1-rel); m.scale.set(1+.12*rel, 1+.08*rel, 1+2.5*rel); });
-    strip.position.set(0, .9*rel, 0); strip.children.forEach(m=>{ m.material.opacity=1-rel; });
-    vacSealBottom.position.y=-BH/2+SEAL/2-.9*rel; vacSealBottom.material.opacity=1-rel;
-    vacSticker.position.y=-BH/2+SEAL+.5-1.6*rel*rel; vacSticker.rotation.z=.05+1.3*rel; vacSticker.material.opacity=1-sstep(.5,1,rel);
-    bag.visible = rel<.999 || !hero.visible;
+    bag.visible=false;   // al vacío no hay bolsa: se usa la foto real del producto envasado (ver sealUni)
   }
   bag.updateMatrixWorld();
 
   /* cogotes */
   const focus=sstep(.45,.57,p), exit=sstep(.95,1,p);
   snacks.forEach((s,i)=>{
+    if(VAC){
+      // al vacío: la pieza no sale volando; está al centro desde el inicio y el plástico se abre sobre ella
+      const peel=sstep(.07,.24,p);
+      if(sealUni){ sealUni.prog.value=peel; sealUni.time.value=t; }
+      s.visible=true;
+      const pos=new THREE.Vector3(0, lerp(-3.2, M?.45:0, ie) + (reduce?0:Math.sin(t*1.1)*.05), .3+.5*sstep(.22,.45,p));
+      let sc=(M?.5:.7)*lerp(.75,1,ie)*(1+.1*sstep(.22,.45,p));
+      const tt=reduce?0:t;
+      s.rotation.set(smy*.22+Math.sin(tt*.7)*.04, smx*.35+Math.sin(tt*.5)*.12, 0);
+      const fpos=new THREE.Vector3(0, M?.55:-.05, 2.2);
+      pos.lerp(fpos,focus);
+      sc=lerp(sc,(M?.46:.85),focus);
+      q.setFromEuler(s.rotation);
+      heroQ.setFromEuler(new THREE.Euler(.06+smy*.25, -.2+(p-.57)*.6+smx*.35, 0));
+      q.slerp(heroQ,focus); s.quaternion.copy(q);
+      sc*=lerp(1,.6,exit);
+      s.position.copy(pos); s.scale.setScalar(sc);
+      return;
+    }
     const e=VAC ? clamp((p-.16)/.2) : clamp((p-.10-s.userData.delay)/.14);
     s.visible = e>0;
     if(!s.visible) return;
@@ -810,13 +847,15 @@ function frame(){
       // foco: al centro y grande, girando con el scroll
       const fpos=new THREE.Vector3(0, M?.55:-.05, 2.2);
       pos.lerp(fpos,focus);
-      sc=lerp(sc, (M?.48:.92)*(VAC?.9:1), focus);
+      // productos altos (como la patita) se achican un poco para que quepan en pantalla
+      sc=lerp(sc, (M?.48:.92)*(VAC?.9:1)*Math.min(1, 1.15*CW/CH), focus);
       q.setFromEuler(s.rotation);
       heroQ.setFromEuler(new THREE.Euler(.08+smy*.3, -.3+(p-.57)*.9+smx*.45, 0));
       q.slerp(heroQ, focus); s.quaternion.copy(q);
       sc*=lerp(1,.6,exit);
     } else {
       pos.z -= 3*focus; pos.x *= 1+focus*.4; pos.y *= 1+focus*.3;
+      s.userData.mat.opacity=1-.75*focus;   // al enfocar uno, los demás pasan a segundo plano
     }
     s.position.copy(pos); s.scale.setScalar(sc);
   });
@@ -865,8 +904,8 @@ requestAnimationFrame(frame);
 })();
 </script>
 <!-- Datos reales de la tienda: precios, tamaños y stock (los genera el servidor) -->
-<script src="js/datos.js"></script>
-<script src="js/productos.js"></script>
+<script src="js/datos.js?v=202611252207"></script>
+<script src="js/productos.js?v=202611252207"></script>
 <script>
 /* ---------- compra: usa el mismo carrito que la tienda ---------- */
 (function(){
